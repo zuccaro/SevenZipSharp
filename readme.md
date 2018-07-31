@@ -1,16 +1,25 @@
-This is a fork from [tomap's fork](https://github.com/tomap/SevenZipSharp) of the [original Codeplex project](https://archive.codeplex.com/?p=sevenzipsharp).
+This is a fork from [tomap's fork](https://github.com/tomap/SevenZipSharp) of the [original CodePlex project](https://archive.codeplex.com/?p=sevenzipsharp).
 
-Main differences from the original project:
-* VS 2015 project
-* .Net 4.5 instead of 2.0
-* Only .Net 4.5 works (no Mobile or Mono compatibility, but if you do a PR ...)
-* Has a nuget package: https://www.nuget.org/packages/Squid-Box.SevenZipSharp/
-* CI with appveyor [![Build status](https://ci.appveyor.com/api/projects/status/bgp7yh7f0fpamt95?svg=true)](https://ci.appveyor.com/project/squid-box/sevenzipsharp)
+## Continuous Integration
 
-Issues, suggestions, and Pull Requests are welcome!
+|   Branch  | Appveyor | Coveralls |
+|-----------|----------|-----------|
+| master | [![Build status](https://ci.appveyor.com/api/projects/status/bgp7yh7f0fpamt95/branch/master?svg=true)](https://ci.appveyor.com/project/squid-box/sevenzipsharp/branch/master) | [![Coverage Status](https://coveralls.io/repos/github/squid-box/SevenZipSharp/badge.svg?branch=master)](https://coveralls.io/github/squid-box/SevenZipSharp?branch=master) |
+| dev | [![Build status](https://ci.appveyor.com/api/projects/status/bgp7yh7f0fpamt95/branch/dev?svg=true)](https://ci.appveyor.com/project/squid-box/sevenzipsharp/branch/dev) | [![Coverage Status](https://coveralls.io/repos/github/squid-box/SevenZipSharp/badge.svg?branch=dev)](https://coveralls.io/github/squid-box/SevenZipSharp?branch=dev) |
 
-Known issues:
-* Self-extracting archives cannot be created.
+[Link to NuGet package "Squid-Box.SevenZipSharp"](https://www.nuget.org/packages/Squid-Box.SevenZipSharp/)
+
+## Changes from original project
+As required by the GNU GPL 3.0 license, here's a rough list of what has changed since the original CodePlex project, including changes made in tomap's fork.
+
+* Target .NET framework changed from 2.0 to 4.5.
+* No support for Mono or Mobile.
+* Produces a NuGet package.
+* Continous Integration added, both building and deploying, and code test coverage.
+* Tests re-written to NUnit 3 test cases.
+* General code cleanup.
+
+-------------------------------------------------------------
 
 Original project information below, some information might be outdated or won't apply to this fork:
 
