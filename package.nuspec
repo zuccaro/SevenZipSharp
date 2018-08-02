@@ -15,5 +15,6 @@
 	<files>
 		<file src="Stage\Release\SevenZipSharp.dll" target="lib\net45" />
 		<file src="Stage\Release\SevenZipSharp.pdb" target="lib\net45" />
+		<file src="license" />
 	</files>
 </package>
