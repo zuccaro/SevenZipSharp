@@ -231,28 +231,29 @@
         [Test]
         public void ThreadedCompressionTest()
         {
-            Assert.Ignore("Not translated yet.");
+			var tempFile1 = Path.Combine(OutputDirectory, "t1.7z");
+			var tempFile2 = Path.Combine(OutputDirectory, "t2.7z");
 
-            var t1 = new Thread(() =>
+			var t1 = new Thread(() =>
             {
                 var tmp = new SevenZipCompressor();
-                tmp.FileCompressionStarted += (s, e) =>
-                    Console.WriteLine(String.Format("[{0}%] {1}", e.PercentDone, e.FileName));
-                tmp.CompressDirectory(@"D:\Temp\t1", @"D:\Temp\arch1.7z");
-            });
+				tmp.CompressDirectory("TestData", tempFile1);
+			});
+
             var t2 = new Thread(() =>
             {
-                var tmp = new SevenZipCompressor();
-                tmp.FileCompressionStarted += (s, e) =>
-                    Console.WriteLine(String.Format("[{0}%] {1}", e.PercentDone, e.FileName));
-                tmp.CompressDirectory(@"D:\Temp\t2", @"D:\Temp\arch2.7z");
+                var tmp = new SevenZipCompressor();                
+                tmp.CompressDirectory("TestData", tempFile2);
             });
 
             t1.Start();
             t2.Start();
             t1.Join();
             t2.Join();
-        }
+
+			Assert.IsTrue(File.Exists(tempFile1));
+			Assert.IsTrue(File.Exists(tempFile2));
+		}
 
         [Test, TestCaseSource(nameof(CompressionMethods))]
         public void CompressDifferentFormatsTest(CompressionMethod method)
