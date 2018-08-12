@@ -100,6 +100,20 @@
         }
 
         [Test]
+        public void ModifyProtectedArchiveTest()
+        {
+            var compressor = new SevenZipCompressor {EncryptHeaders = true};
+            compressor.CompressFilesEncrypted(TemporaryFile, "password", Directory.GetFiles("TestData"));
+
+            var modificationList = new Dictionary<int, string>
+            {
+                {0, "changed.zip"}
+            };
+
+            compressor.ModifyArchive(TemporaryFile, modificationList, "password");
+        }
+
+        [Test]
         public void CompressWithModifyModeRenameTest()
         {
             var compressor = new SevenZipCompressor
