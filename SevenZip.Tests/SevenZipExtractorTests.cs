@@ -124,39 +124,34 @@
         [Test]
         public void ThreadedExtractionTest()
         {
-            Assert.Ignore("Not translated yet.");
+	        var destination1 = Path.Combine(OutputDirectory, "t1");
+	        var destination2 = Path.Combine(OutputDirectory, "t2");
 
-            var t1 = new Thread(() =>
+			var t1 = new Thread(() =>
             {
-                using (var tmp = new SevenZipExtractor(@"D:\Temp\7z465_extra.7z"))
+                using (var tmp = new SevenZipExtractor(@"TestData\multiple_files.7z"))
                 {
-                    tmp.FileExtractionStarted += (s, e) =>
-                    {
-                        Console.WriteLine(String.Format("[{0}%] {1}",
-                            e.PercentDone, e.FileInfo.FileName));
-                    };
-                    tmp.ExtractionFinished += (s, e) => { Console.WriteLine("Finished!"); };
-                    tmp.ExtractArchive(@"D:\Temp\t1");
+                    tmp.ExtractArchive(destination1);
                 }
             });
             var t2 = new Thread(() =>
             {
-                using (var tmp = new SevenZipExtractor(@"D:\Temp\7z465_extra.7z"))
-                {
-                    tmp.FileExtractionStarted += (s, e) =>
-                    {
-                        Console.WriteLine(String.Format("[{0}%] {1}",
-                            e.PercentDone, e.FileInfo.FileName));
-                    };
-                    tmp.ExtractionFinished += (s, e) => { Console.WriteLine("Finished!"); };
-                    tmp.ExtractArchive(@"D:\Temp\t2");
+				using (var tmp = new SevenZipExtractor(@"TestData\multiple_files.7z"))
+				{
+                    tmp.ExtractArchive(destination2);
                 }
             });
+
             t1.Start();
             t2.Start();
             t1.Join();
             t2.Join();
-        }
+
+			Assert.IsTrue(Directory.Exists(destination1));
+	        Assert.IsTrue(Directory.Exists(destination2));
+			Assert.AreEqual(3, Directory.GetFiles(destination1).Length);
+	        Assert.AreEqual(3, Directory.GetFiles(destination2).Length);
+		}
 
         [Test, TestCaseSource(nameof(TestFiles))]
         public void ExtractDifferentFormatsTest(TestFile file)
