@@ -33,7 +33,6 @@ namespace SevenZip
     /// </summary>
     public abstract class SevenZipBase : MarshalByRefObject
     {
-        private readonly string _password;
         private readonly bool _reportErrors;
         private readonly int _uniqueID;
         private static readonly List<int> Identificators = new List<int>();
@@ -151,30 +150,18 @@ namespace SevenZip
         }
 
         #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the SevenZipBase class.
-        /// </summary>
-        protected SevenZipBase()
-        {
-            _password = "";
-            _reportErrors = true;
-            _uniqueID = GetUniqueID();
-        }
 
         /// <summary>
         /// Initializes a new instance of the SevenZipBase class
         /// </summary>
         /// <param name="password">The archive password.</param>
-        protected SevenZipBase(string password)
+        protected SevenZipBase(string password = "")
         {
-            if (String.IsNullOrEmpty(password))
-            {
-                throw new SevenZipException("Empty password was specified.");
-            }
-            _password = password;
+            Password = password;
             _reportErrors = true;
             _uniqueID = GetUniqueID();
         }
+
         #endregion
 
         /// <summary>
@@ -192,7 +179,7 @@ namespace SevenZip
         /// <summary>
         /// Gets or sets the archive password
         /// </summary>
-        public string Password => _password;
+        public string Password { get; protected set; }
 
         /// <summary>
         /// Gets or sets throw exceptions on archive errors flag

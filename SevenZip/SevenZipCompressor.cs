@@ -162,8 +162,7 @@ namespace SevenZip
 
         private IOutArchive MakeOutArchive(IInStream inArchiveStream)
         {
-            IInArchive inArchive = SevenZipLibraryManager.InArchive(
-                Formats.InForOutFormats[_archiveFormat], this);
+            IInArchive inArchive = SevenZipLibraryManager.InArchive(Formats.InForOutFormats[_archiveFormat], this);
             using (ArchiveOpenCallback openCallback = GetArchiveOpenCallback())
             {
                 ulong checkPos = 1 << 15;
@@ -1480,7 +1479,7 @@ namespace SevenZip
 
             if (!File.Exists(archiveName))
             {
-                if (!ThrowException(null, new ArgumentException("The specified archive does not exist.", "archiveName")))
+                if (!ThrowException(null, new ArgumentException("The specified archive does not exist.", nameof(archiveName))))
                 {
                     return;
                 }
@@ -1488,15 +1487,21 @@ namespace SevenZip
 
             if (newFileNames == null || newFileNames.Count == 0)
             {
-                if (!ThrowException(null, new ArgumentException("Invalid new file names.", "newFileNames")))
+                if (!ThrowException(null, new ArgumentException("Invalid new file names.", nameof(newFileNames))))
                 {
                     return;
                 }
             }
 
+            if (!string.IsNullOrEmpty(password) && string.IsNullOrEmpty(Password))
+            {
+                // When modifying an encrypted archive, Password is not set in the SevenZipCompressor.
+                Password = password;
+            }
+
             try
             {
-                using (var extr = new SevenZipExtractor(archiveName))
+                using (var extr = new SevenZipExtractor(archiveName, password))
                 {
                     _updateData = new UpdateData();
                     var archiveData = new ArchiveFileInfo[extr.ArchiveFileData.Count];

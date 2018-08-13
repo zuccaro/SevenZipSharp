@@ -100,6 +100,34 @@
         }
 
         [Test]
+        public void ModifyProtectedArchiveTest()
+        {
+            var compressor = new SevenZipCompressor
+            {
+                DirectoryStructure = false,
+                EncryptHeaders = true
+            };
+
+            compressor.CompressFilesEncrypted(TemporaryFile, "password", @"TestData\7z_LZMA2.7z", @"TestData\zip.zip");
+
+            var modificationList = new Dictionary<int, string>
+            {
+                {0, "changed.zap"},
+                {1, null }
+            };
+
+            compressor.ModifyArchive(TemporaryFile, modificationList, "password");
+
+            Assert.IsTrue(File.Exists(TemporaryFile));
+
+            using (var extractor = new SevenZipExtractor(TemporaryFile, "password"))
+            {
+                Assert.AreEqual(1, extractor.FilesCount);
+                Assert.AreEqual("changed.zap", extractor.ArchiveFileNames[0]);
+            }
+        }
+
+        [Test]
         public void CompressWithModifyModeRenameTest()
         {
             var compressor = new SevenZipCompressor
