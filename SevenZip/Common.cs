@@ -239,10 +239,21 @@ namespace SevenZip
                 {
                     if (hresult < -2000000000)
                     {
-                        ThrowException(handler,
-                                       new SevenZipException(
-                                           "Execution has failed due to an internal SevenZipSharp issue.\n" +
-                                           "Please report it to https://github.com/squid-box/SevenZipSharp/issues/, include the release number, 7z version used, and attach the archive."));
+                        SevenZipException exception;
+
+                        switch (hresult)
+                        {
+                            case -2147024784:
+                                exception = new SevenZipException("There is not enough space on the disk. (0x80070070: DISK_FULL)");
+                                break;
+                            default:
+                                exception = new SevenZipException(
+                                    $"Execution has failed due to an internal SevenZipSharp issue (0x{hresult:x}).\n" +
+                                    "Please report it to https://github.com/squid-box/SevenZipSharp/issues/, include the release number, 7z version used, and attach the archive.");
+                                break;
+                        }
+
+                        ThrowException(handler, exception);
                     }
                     else
                     {
