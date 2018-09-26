@@ -9,7 +9,7 @@
     public class SevenZipExtractorAsynchronousTests : TestBase
     {
         [Test]
-        public void AsynchronousExtractArchiveEventsTest()
+        public void AsynchronousExtractArchiveTest()
         {
             var extractingInvoked = 0;
             var extractionFinishedInvoked = 0;
@@ -34,6 +34,7 @@
                 {
                     if (timeToWait <= 0)
                     {
+                        Assert.Fail("ExtractionFinished was never invoked.");
                         break;
                     }
 
@@ -55,6 +56,7 @@
                 {
                     if (timeToWait <= 0)
                     {
+                        Assert.Fail("ExtractionFinished was never invoked.");
                         break;
                     }
 
@@ -67,7 +69,70 @@
         }
 
         [Test]
-        public void AsynchronousExtractFileEventsTest()
+        public void AsynchronousExtractArchiveFromStreamTest()
+        {
+            var extractingInvoked = 0;
+            var extractionFinishedInvoked = 0;
+            var fileExistsInvoked = 0;
+            var fileExtractionStartedInvoked = 0;
+            var fileExtractionFinishedInvoked = 0;
+
+            using (var fileStream = new FileStream(@"TestData\multiple_files.7z", FileMode.Open))
+            {
+                using (var extractor = new SevenZipExtractor(fileStream))
+                {
+                    extractor.EventSynchronization = EventSynchronizationStrategy.AlwaysSynchronous;
+
+                    extractor.Extracting += (o, e) => extractingInvoked++;
+                    extractor.ExtractionFinished += (o, e) => extractionFinishedInvoked++;
+                    extractor.FileExists += (o, e) => fileExistsInvoked++;
+                    extractor.FileExtractionStarted += (o, e) => fileExtractionStartedInvoked++;
+                    extractor.FileExtractionFinished += (o, e) => fileExtractionFinishedInvoked++;
+
+                    extractor.BeginExtractArchive(OutputDirectory);
+
+                    var timeToWait = 1000;
+                    while (extractionFinishedInvoked == 0)
+                    {
+                        if (timeToWait <= 0)
+                        {
+                            Assert.Fail("ExtractionFinished was never invoked.");
+                            break;
+                        }
+
+                        Thread.Sleep(25);
+                        timeToWait -= 25;
+                    }
+
+                    Assert.AreEqual(3, extractingInvoked);
+                    Assert.AreEqual(1, extractionFinishedInvoked);
+                    Assert.AreEqual(0, fileExistsInvoked);
+                    Assert.AreEqual(3, fileExtractionStartedInvoked);
+                    Assert.AreEqual(3, fileExtractionFinishedInvoked);
+
+                    extractionFinishedInvoked = 0;
+                    extractor.BeginExtractArchive(OutputDirectory);
+
+                    timeToWait = 1000;
+                    while (extractionFinishedInvoked == 0)
+                    {
+                        if (timeToWait <= 0)
+                        {
+                            Assert.Fail("ExtractionFinished was never invoked.");
+                            break;
+                        }
+
+                        Thread.Sleep(25);
+                        timeToWait -= 25;
+                    }
+
+                    Assert.AreEqual(3, fileExistsInvoked);
+                }
+            }
+        }
+
+        [Test]
+        public void AsynchronousExtractFileTest()
         {
             var extractionFinishedInvoked = false;
 
@@ -86,6 +151,7 @@
                 {
                     if (timeToWait <= 0)
                     {
+                        Assert.Fail("ExtractionFinished was never invoked.");
                         break;
                     }
 
@@ -100,7 +166,7 @@
         }
 
         [Test]
-        public void AsynchronousExtractFilesEventsTest()
+        public void AsynchronousExtractFilesTest()
         {
             var extractionFinishedInvoked = false;
 
@@ -117,6 +183,7 @@
                 {
                     if (timeToWait <= 0)
                     {
+                        Assert.Fail("ExtractionFinished was never invoked.");
                         break;
                     }
 
