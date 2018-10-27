@@ -5,7 +5,6 @@
 
     using SevenZip.Sdk.Compression.Lzma;
 
-#if LZMA_STREAM
 #if COMPRESS
     /// <summary>
     /// The stream which compresses data with LZMA on the fly.
@@ -273,6 +272,5 @@
             _buffer.Write(buffer, offset, dataLength);
         }
     }
-#endif
 #endif
 }

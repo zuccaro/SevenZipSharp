@@ -5,7 +5,6 @@
 
     using SevenZip.Sdk.Compression.Lzma;
 
-#if LZMA_STREAM
     /// <summary>
     /// The stream which decompresses data with LZMA on the fly.
     /// </summary>
@@ -195,5 +194,4 @@
             throw new NotSupportedException();
         }
     }
-#endif
 }

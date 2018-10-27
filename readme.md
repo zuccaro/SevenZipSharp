@@ -76,9 +76,6 @@ SevenZipCompressor.CustomParameters is a special property to set compression swi
 For the complete switches list, refer to SevenZipDoc.chm in the 7-zip installation.
 
 ## Conditional compilation symbols
-Since the 0.50 release, compilation symbols are supported: UNMANAGED, COMPRESS, SFX, LZMA_STREAM.
+These compilation symbols are supported: UNMANAGED, COMPRESS.
 * UNMANAGED allows the main COM part of SevenZipSharp to be built.
 * COMPRESS allows the compression classes to be built.
-* SFX allows the sfx classes to be built.
-* LZMA_STREAM allows LzmaEncodeStream/LzmaDecodeStream to be built.
-* CS4 enables features of C# 4 in Visual Studio 2010.
