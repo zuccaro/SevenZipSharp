@@ -9,7 +9,6 @@
     using System.Xml;
     using System.Xml.Schema;
 
-#if SFX
     using SfxSettings = System.Collections.Generic.Dictionary<string, string>;
 
     /// <summary>
@@ -490,5 +489,4 @@
             }
         }
     }
-#endif
 }

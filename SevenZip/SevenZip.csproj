@@ -42,7 +42,7 @@
     <Optimize>false</Optimize>
     <OutputPath>..\Stage\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>..\Stage\obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>TRACE;DEBUG;UNMANAGED, COMPRESS, LZMA_STREAM, SFX</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNMANAGED, COMPRESS, LZMA_STREAM</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RegisterForComInterop>false</RegisterForComInterop>
@@ -88,7 +88,16 @@
     <Compile Include="ArchiveUpdateCallback.cs" />
     <Compile Include="Com.cs" />
     <Compile Include="EventArgs.cs" />
-    <Compile Include="Exceptions.cs" />
+    <Compile Include="Exceptions\CompressionFailedException.cs" />
+    <Compile Include="Exceptions\ExtractionFailedException.cs" />
+    <Compile Include="Exceptions\LzmaException.cs" />
+    <Compile Include="Exceptions\SevenZipArchiveException.cs" />
+    <Compile Include="Exceptions\SevenZipCompressionFailedException.cs" />
+    <Compile Include="Exceptions\SevenZipException.cs" />
+    <Compile Include="Exceptions\SevenZipExtractionFailedException.cs" />
+    <Compile Include="Exceptions\SevenZipInvalidFileNamesException.cs" />
+    <Compile Include="Exceptions\SevenZipLibraryException.cs" />
+    <Compile Include="Exceptions\SevenZipSfxValidationException.cs" />
     <Compile Include="FileChecker.cs" />
     <Compile Include="Formats.cs" />
     <Compile Include="LibraryFeature.cs" />
