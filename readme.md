@@ -76,6 +76,5 @@ SevenZipCompressor.CustomParameters is a special property to set compression swi
 For the complete switches list, refer to SevenZipDoc.chm in the 7-zip installation.
 
 ## Conditional compilation symbols
-These compilation symbols are supported: UNMANAGED, COMPRESS.
+These compilation symbols are supported: UNMANAGED.
 * UNMANAGED allows the main COM part of SevenZipSharp to be built.
-* COMPRESS allows the compression classes to be built.

@@ -377,7 +377,6 @@ namespace SevenZip
         #endregion
     }
 
-#if COMPRESS
     /// <summary>
     /// IOutStream wrapper used in multi volume stream write operations.
     /// </summary>
@@ -451,7 +450,6 @@ namespace SevenZip
             StreamOffsets.Add(CurrentStream, new KeyValuePair<long, long>(0, _volumeSize - 1));
         }
     }
-#endif
 
     internal sealed class FakeOutStreamWrapper : ISequentialOutStream, IDisposable
     {

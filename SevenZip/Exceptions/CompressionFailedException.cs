@@ -1,4 +1,4 @@
-﻿#if COMPRESS && UNMANAGED
+﻿#if UNMANAGED
 
 namespace SevenZip
 {
