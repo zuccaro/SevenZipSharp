@@ -121,6 +121,53 @@
             Assert.AreEqual("file2", File.ReadAllText(extractedFile));
         }
 
+        /// <summary>
+        /// Written to test GH-29.
+        /// </summary>
+        [Test]
+        public void ExtractMultipleFilesFromStreamToStreams()
+        {
+            var streams = new List<MemoryStream>();
+
+            using (var fileStream = File.OpenRead(@"TestData\multiple_files_rar5_password.rar"))
+            {
+                using (var extractor = new SevenZipExtractor(fileStream, "test"))
+                {
+                    var files = extractor.ArchiveFileData;
+
+                    foreach (var entry in files)
+                    {
+                        var stream = new MemoryStream();
+                        extractor.ExtractFile(entry.Index, stream);
+
+                        streams.Add(stream);
+                    }
+                }
+            }
+
+            Assert.AreEqual(3, streams.Count);
+
+            var uniqueContent = new HashSet<string>();
+
+            foreach (var stream in streams)
+            {
+                using (var fs = new FileStream(TemporaryFile, FileMode.Create))
+                {
+                    stream.WriteTo(fs);
+                    stream.Dispose();
+                }
+
+                var fileContent = File.ReadAllText(TemporaryFile);
+
+                uniqueContent.Add(fileContent);
+            }
+
+            // Assert that we actually got the correct content from the file.
+            Assert.IsTrue(uniqueContent.Contains("file1"));
+            Assert.IsTrue(uniqueContent.Contains("file2"));
+            Assert.IsTrue(uniqueContent.Contains("file3"));
+        }
+
         [Test]
         public void ThreadedExtractionTest()
         {
