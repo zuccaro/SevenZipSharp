@@ -630,8 +630,6 @@ namespace SevenZip
         }
     }
 
-#if COMPRESS
-
     /// <summary>
     /// Archive compression mode.
     /// </summary>
@@ -698,6 +696,5 @@ namespace SevenZip
 
         public List<ArchiveFileInfo> ArchiveFileData { get; set; }
     }
-#endif
 #endif
 }
