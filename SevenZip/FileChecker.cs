@@ -173,6 +173,7 @@
                     InArchiveFormat.Zip, 
                     InArchiveFormat.SevenZip,
                     InArchiveFormat.Rar,
+                    InArchiveFormat.Rar4,
                     InArchiveFormat.Cab,
                     InArchiveFormat.Arj
                 })

@@ -129,9 +129,9 @@
         {
             var streams = new List<MemoryStream>();
 
-            using (var fileStream = File.OpenRead(@"TestData\multiple_files_rar5_password.rar"))
+            using (var fileStream = File.OpenRead(@"TestData\multiple_files_rar5_sfx.exe"))
             {
-                using (var extractor = new SevenZipExtractor(fileStream, "test"))
+                using (var extractor = new SevenZipExtractor(fileStream))
                 {
                     var files = extractor.ArchiveFileData;
 
@@ -200,14 +200,45 @@
 	        Assert.AreEqual(3, Directory.GetFiles(destination2).Length);
 		}
 
+        [Test]
+        public void ExtractSelfExtractinRarArchivesTest()
+        {
+            using (var extractor = new SevenZipExtractor(@"TestData\multiple_files_rar5_sfx.exe"))
+            {
+                extractor.ExtractArchive(OutputDirectory);
+            }
+
+            Assert.AreEqual(3, Directory.GetFiles(OutputDirectory).Length);
+        }
+
         [Test, TestCaseSource(nameof(TestFiles))]
         public void ExtractDifferentFormatsTest(TestFile file)
         {
-            using (var extractor = new SevenZipExtractor(file.FilePath))
+            if (file.FilePath.Contains("part0002"))
+            {
+                Assert.Ignore("Partial file can't be extracted.");
+            }
+
+            var password = string.Empty;
+            if (file.FilePath.Contains("encrypted"))
+            {
+                password = "test";
+            }
+
+            var expectedNumberOfFiles = 1;
+
+            if (file.FilePath.Contains("multiple"))
+            {
+                expectedNumberOfFiles = 3;
+            }
+
+            using (var extractor = new SevenZipExtractor(file.FilePath, password))
             {
                 extractor.ExtractArchive(OutputDirectory);
-                Assert.AreEqual(1, Directory.GetFiles(OutputDirectory).Length);
+                Assert.AreEqual(expectedNumberOfFiles, Directory.GetFiles(OutputDirectory).Length);
             }
+
+            //Thread.Sleep(500);
         }
     }
 
