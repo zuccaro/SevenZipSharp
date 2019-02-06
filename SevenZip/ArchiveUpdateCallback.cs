@@ -6,7 +6,6 @@ namespace SevenZip
     using System.Runtime.InteropServices;
 
 #if UNMANAGED
-#if COMPRESS
     /// <summary>
     /// Archive update callback to handle the process of packing files
     /// </summary>
@@ -786,6 +785,5 @@ namespace SevenZip
             }
         }
     }
-#endif
 #endif
 }

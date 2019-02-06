@@ -239,7 +239,6 @@
         MachO
     }
 
-#if COMPRESS
     /// <summary>
     /// Writable archive format enumeration.
     /// </summary>    
@@ -349,7 +348,6 @@
         /// </summary>
         Default
     }
-#endif
 
     /// <summary>
     /// Archive format routines
@@ -426,7 +424,6 @@
 
             #endregion
 
-#if COMPRESS
         /// <summary>
         /// List of writable archive format interface guids for 7-zip COM interop.
         /// </summary>
@@ -475,8 +472,6 @@
             };
 
             #endregion
-
-#endif
 
         /// <summary>
         /// List of archive formats corresponding to specific extensions

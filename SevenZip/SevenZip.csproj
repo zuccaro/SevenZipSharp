@@ -42,7 +42,7 @@
     <Optimize>false</Optimize>
     <OutputPath>..\Stage\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>..\Stage\obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>TRACE;DEBUG;UNMANAGED, COMPRESS, LZMA_STREAM, SFX</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNMANAGED</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RegisterForComInterop>false</RegisterForComInterop>
@@ -87,16 +87,35 @@
     <Compile Include="ArchiveOpenCallback.cs" />
     <Compile Include="ArchiveUpdateCallback.cs" />
     <Compile Include="Com.cs" />
-    <Compile Include="EventArgs.cs" />
-    <Compile Include="Exceptions.cs" />
+    <Compile Include="EventArguments\ExtractFileCallbackArgs.cs" />
+    <Compile Include="EventArguments\ExtractFileCallbackReason.cs" />
+    <Compile Include="EventArguments\FileInfoEventArgs.cs" />
+    <Compile Include="EventArguments\FileNameEventArgs.cs" />
+    <Compile Include="EventArguments\FileOverwriteEventArgs.cs" />
+    <Compile Include="EventArguments\ICancellable.cs" />
+    <Compile Include="EventArguments\IntEventArgs.cs" />
+    <Compile Include="EventArguments\OpenEventArgs.cs" />
+    <Compile Include="EventArguments\PercentDoneEventArgs.cs" />
+    <Compile Include="EventArguments\ProgressEventArgs.cs" />
+    <Compile Include="Exceptions\CompressionFailedException.cs" />
+    <Compile Include="Exceptions\ExtractionFailedException.cs" />
+    <Compile Include="Exceptions\LzmaException.cs" />
+    <Compile Include="Exceptions\SevenZipArchiveException.cs" />
+    <Compile Include="Exceptions\SevenZipCompressionFailedException.cs" />
+    <Compile Include="Exceptions\SevenZipException.cs" />
+    <Compile Include="Exceptions\SevenZipExtractionFailedException.cs" />
+    <Compile Include="Exceptions\SevenZipInvalidFileNamesException.cs" />
+    <Compile Include="Exceptions\SevenZipLibraryException.cs" />
+    <Compile Include="Exceptions\SevenZipSfxValidationException.cs" />
+    <Compile Include="EventArguments\ExtractFileCallback.cs" />
     <Compile Include="FileChecker.cs" />
     <Compile Include="Formats.cs" />
     <Compile Include="LibraryFeature.cs" />
     <Compile Include="LibraryManager.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="LzmaDecodeStream.cs" />
-    <Compile Include="LzmaEncodeStream.cs" />
-    <Compile Include="LzmaProgressCallback.cs" />
+    <Compile Include="LZMA\LzmaDecodeStream.cs" />
+    <Compile Include="LZMA\LzmaEncodeStream.cs" />
+    <Compile Include="LZMA\LzmaProgressCallback.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sdk\Common\CRC.cs" />
