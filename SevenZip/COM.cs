@@ -429,10 +429,11 @@
         /// No property
         /// </summary>
         NoProperty = 0,
+        MainSubfile,
         /// <summary>
         /// Handler item index
         /// </summary>
-        HandlerItemIndex = 2,
+        HandlerItemIndex,
         /// <summary>
         /// Item path
         /// </summary>
@@ -609,10 +610,19 @@
         /// Archive checksum
         /// </summary>
         Checksum,
+        Characts,
+        Va,
+        Id,
+        ShortName,
+        CreatorApp,
+        SectorSize,
+        PosixAttrib,
+        SymLink,
+        Error,
         /// <summary>
         /// (?)
         /// </summary>
-        TotalSize = 0x1100,
+        TotalSize,
         /// <summary>
         /// (?)
         /// </summary>
@@ -628,11 +638,49 @@
         /// <summary>
         /// Local item name(?); usually absent
         /// </summary>
-        LocalName = 0x1200,
+        LocalName,
         /// <summary>
         /// (?)
         /// </summary>
         Provider,
+        NtSecure,
+        IsAltStream,
+        IsAux,
+        IsDeleted,
+        IsTree,
+        Sha1,
+        Sha256,
+        ErrorType,
+        NumErrors,
+        ErrorFlags,
+        WarningFlags,
+        Warning,
+        NumStreams,
+        NumAltStreams,
+        AltStreamsSize,
+        VirtualSize,
+        UnpackSize,
+        TotalPhySize,
+        /// <summary>
+        /// Index of the Volume
+        /// </summary>
+        VolumeIndex,
+        SubType,
+        ShortComment,
+        CodePage,
+        IsNotArcType,
+        PhySizeCantBeDetected,
+        ZerosTailIsAllowed,
+        TailSize,
+        EmbeddedStubSize,
+        NtReparse,
+        HardLink,
+        INode,
+        StreamId,
+        ReadOnly,
+        OutName,
+        CopyLink,
+        NumDefined,
         /// <summary>
         /// User defined property; usually absent
         /// </summary>
@@ -709,6 +757,7 @@
                     ItemPropId.UnpackVersion,
                     "Unpacker version"
                     },
+                {ItemPropId.VolumeIndex, "VolumeIndex"},
                 {ItemPropId.Volume, "Volume"},
                 {ItemPropId.IsVolume, "IsVolume"},
                 {ItemPropId.Offset, "Offset"},
