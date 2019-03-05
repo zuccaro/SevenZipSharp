@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Threading;
 
     using SevenZip;
@@ -119,6 +120,22 @@
             var extractedFile = Directory.GetFiles(OutputDirectory)[0];
 
             Assert.AreEqual("file2", File.ReadAllText(extractedFile));
+        }
+
+        [Test]
+        public void DetectMultiVolumeIndexTest()
+        {
+            using (var tmp = new SevenZipExtractor(@"TestData\multivolume.part0001.rar"))
+            {
+                Assert.IsTrue(tmp.ArchiveProperties.Any(x => x.Name.Equals("IsVolume") && x.Value != null && x.Value.Equals(true)));
+                Assert.IsTrue(tmp.ArchiveProperties.Any(x => x.Name.Equals("VolumeIndex") && x.Value != null && Convert.ToInt32(x.Value) == 0));
+            }
+
+            using (var tmp = new SevenZipExtractor(@"TestData\multivolume.part0002.rar"))
+            {
+                Assert.IsTrue(tmp.ArchiveProperties.Any(x => x.Name.Equals("IsVolume") && x.Value != null && x.Value.Equals(true)));
+                Assert.IsFalse(tmp.ArchiveProperties.Any(x => x.Name.Equals("VolumeIndex") && x.Value != null && Convert.ToInt32(x.Value) == 0));
+            }
         }
 
         [Test]
