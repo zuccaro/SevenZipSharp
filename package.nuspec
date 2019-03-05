@@ -10,7 +10,7 @@
 		<licenseUrl>https://github.com/squid-box/SevenZipSharp/blob/master/license</licenseUrl>
 		<projectUrl>https://github.com/squid-box/SevenZipSharp</projectUrl>
 		<tags>7z sevenzip sevenzipsharp 7-zip</tags>
-		<releaseNotes>Improved error output a little, no new functionality or bugfixes.</releaseNotes>
+		<releaseNotes>Archive property VolumeIndex now exposed through SevenZipSharp, thanks to Ravi Patel (ravibpatel).</releaseNotes>
 	</metadata>
 	<files>
 		<file src="Stage\Release\SevenZipSharp.dll" target="lib\net45" />
