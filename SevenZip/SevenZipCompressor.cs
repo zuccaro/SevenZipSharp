@@ -762,7 +762,7 @@ namespace SevenZip
         /// <param name="password">The archive password</param>
         /// <returns></returns>
         private ArchiveUpdateCallback GetArchiveUpdateCallback(
-            Dictionary<string, Stream> streamDict, string password)
+            IDictionary<string, Stream> streamDict, string password)
         {
             SetCompressionProperties();
             var auc = (String.IsNullOrEmpty(password))
@@ -1303,7 +1303,7 @@ namespace SevenZip
         /// <param name="archiveName">The archive file name.</param>
         /// <param name="password">The archive password.</param>
         public void CompressFileDictionary(
-            Dictionary<string, string> fileDictionary, string archiveName, string password = "")
+            IDictionary<string, string> fileDictionary, string archiveName, string password = "")
         {
             _compressingFilesOnDisk = true;
             _archiveName = archiveName;
@@ -1329,7 +1329,7 @@ namespace SevenZip
         /// Use CompressStreamDictionary( ... string archiveName ... ) overloads for archiving to disk.</param>
         /// <param name="password">The archive password.</param>
         public void CompressFileDictionary(
-            Dictionary<string, string> fileDictionary, Stream archiveStream, string password = "")
+            IDictionary<string, string> fileDictionary, Stream archiveStream, string password = "")
         {
             var streamDict = new Dictionary<string, Stream>(fileDictionary.Count);
 
@@ -1369,7 +1369,7 @@ namespace SevenZip
         /// <param name="archiveName">The archive file name.</param>
         /// <param name="password">The archive password.</param>
         public void CompressStreamDictionary(
-            Dictionary<string, Stream> streamDictionary, string archiveName, string password = "")
+            IDictionary<string, Stream> streamDictionary, string archiveName, string password = "")
         {
             _compressingFilesOnDisk = true;
             _archiveName = archiveName;
@@ -1395,7 +1395,7 @@ namespace SevenZip
         /// Use CompressStreamDictionary( ... string archiveName ... ) overloads for archiving to disk.</param>
         /// <param name="password">The archive password.</param>
         public void CompressStreamDictionary(
-            Dictionary<string, Stream> streamDictionary, Stream archiveStream, string password = "")
+            IDictionary<string, Stream> streamDictionary, Stream archiveStream, string password = "")
         {
             ClearExceptions();
 
@@ -1550,7 +1550,7 @@ namespace SevenZip
         /// <param name="archiveName">The archive file name.</param>
         /// <param name="newFileNames">New file names. Null value to delete the corresponding index.</param>
         /// <param name="password">The archive password.</param>
-        public void ModifyArchive(string archiveName, Dictionary<int, string> newFileNames, string password = "")
+        public void ModifyArchive(string archiveName, IDictionary<int, string> newFileNames, string password = "")
         {
             ClearExceptions();
 
