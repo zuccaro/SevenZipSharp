@@ -230,8 +230,7 @@ namespace SevenZip
     /// </summary>
     internal class MultiStreamWrapper : DisposeVariableWrapper, IDisposable
     {
-        protected readonly Dictionary<int, KeyValuePair<long, long>> StreamOffsets =
-            new Dictionary<int, KeyValuePair<long, long>>();
+        protected readonly Dictionary<int, KeyValuePair<long, long>> StreamOffsets = new Dictionary<int, KeyValuePair<long, long>>();
 
         protected readonly List<Stream> Streams = new List<Stream>();
         protected int CurrentStream;

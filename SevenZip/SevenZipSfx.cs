@@ -47,7 +47,7 @@
         {
             get
             {
-                var result = new Dictionary<SfxModule, List<string>>(3)
+                var result = new Dictionary<SfxModule, List<string>>
                 {
                     {SfxModule.Simple, new List<string>(2) {"7z.sfx", "7zCon.sfx"}},
                     {SfxModule.Installer, new List<string>(2) {"7zS.sfx", "7zSD.sfx"}}
@@ -89,8 +89,9 @@
         {
             if (module == SfxModule.Custom)
             {
-                throw new ArgumentException("You must specify the custom module executable.", "module");
+                throw new ArgumentException("You must specify the custom module executable.", nameof(module));
             }
+
             _module = module;
             CommonInit();
         }

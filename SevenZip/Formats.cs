@@ -370,7 +370,7 @@
         /// List of readable archive format interface guids for 7-zip COM interop.
         /// </summary>
         internal static readonly Dictionary<InArchiveFormat, Guid> InFormatGuids =
-            new Dictionary<InArchiveFormat, Guid>(20)
+            new Dictionary<InArchiveFormat, Guid>
             #region InFormatGuids initialization
 
             {
@@ -428,7 +428,7 @@
         /// List of writable archive format interface guids for 7-zip COM interop.
         /// </summary>
         internal static readonly Dictionary<OutArchiveFormat, Guid> OutFormatGuids =
-            new Dictionary<OutArchiveFormat, Guid>(2)
+            new Dictionary<OutArchiveFormat, Guid>
             #region OutFormatGuids initialization
 
             {
@@ -443,7 +443,7 @@
             #endregion
 
         internal static readonly Dictionary<CompressionMethod, string> MethodNames =
-            new Dictionary<CompressionMethod, string>(6)
+            new Dictionary<CompressionMethod, string>
             #region MethodNames initialization
 
             {
@@ -459,7 +459,7 @@
             #endregion
 
         internal static readonly Dictionary<OutArchiveFormat, InArchiveFormat> InForOutFormats =
-            new Dictionary<OutArchiveFormat, InArchiveFormat>(6)
+            new Dictionary<OutArchiveFormat, InArchiveFormat>
             #region InForOutFormats initialization
 
             {

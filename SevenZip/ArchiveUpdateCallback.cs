@@ -150,7 +150,7 @@ namespace SevenZip
         /// <param name="updateData">The compression parameters.</param>
         /// <param name="directoryStructure">Preserve directory structure.</param>
         public ArchiveUpdateCallback(
-            Dictionary<string, Stream> streamDict,
+            IDictionary<string, Stream> streamDict,
             SevenZipCompressor compressor, UpdateData updateData, bool directoryStructure)
         {
             Init(streamDict, compressor, updateData, directoryStructure);
@@ -165,7 +165,7 @@ namespace SevenZip
         /// <param name="updateData">The compression parameters.</param>
         /// <param name="directoryStructure">Preserve directory structure.</param>
         public ArchiveUpdateCallback(
-            Dictionary<string, Stream> streamDict, string password,
+            IDictionary<string, Stream> streamDict, string password,
             SevenZipCompressor compressor, UpdateData updateData, bool directoryStructure)
             : base(password)
         {
@@ -236,7 +236,7 @@ namespace SevenZip
         }
 
         private void Init(
-            Dictionary<string, Stream> streamDict,
+            IDictionary<string, Stream> streamDict,
             SevenZipCompressor compressor, UpdateData updateData, bool directoryStructure)
         {
             _streams = new Stream[streamDict.Count];
