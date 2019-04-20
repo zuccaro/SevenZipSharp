@@ -60,7 +60,7 @@ namespace SevenZip
         private static int _totalUsers;
 
         // private static string _LibraryVersion;
-        private static bool? _modifyCapabale;
+        private static bool? _modifyCapable;
 
         private static void InitUserInFormat(object user, InArchiveFormat format)
         {
@@ -151,12 +151,12 @@ namespace SevenZip
             {
                 lock (_syncRoot)
                 {
-                    if (!_modifyCapabale.HasValue)
+                    if (!_modifyCapable.HasValue)
                     {
                         FileVersionInfo dllVersionInfo = FileVersionInfo.GetVersionInfo(_libraryFileName);
-                        _modifyCapabale = dllVersionInfo.FileMajorPart >= 9;
+                        _modifyCapable = dllVersionInfo.FileMajorPart >= 9;
                     }
-                    return _modifyCapabale.Value;
+                    return _modifyCapable.Value;
                 }
             }
         }
