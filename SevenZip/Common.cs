@@ -692,7 +692,7 @@ namespace SevenZip
         public uint FilesCount;
         public InternalCompressionMode Mode;
 
-        public Dictionary<int, string> FileNamesToModify { get; set; }
+        public IDictionary<int, string> FileNamesToModify { get; set; }
 
         public List<ArchiveFileInfo> ArchiveFileData { get; set; }
     }
