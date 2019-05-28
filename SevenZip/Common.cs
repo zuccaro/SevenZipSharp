@@ -4,7 +4,6 @@ namespace SevenZip
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
-    using System.Runtime.Remoting.Messaging;
     using System.Threading;
 
 #if UNMANAGED
@@ -36,23 +35,11 @@ namespace SevenZip
         private readonly bool _reportErrors;
         private readonly int _uniqueID;
         private static readonly List<int> Identificators = new List<int>();
-        internal static readonly AsyncCallback AsyncCallbackImplementation = AsyncCallbackMethod;
 
         /// <summary>
         /// True if the instance of the class needs to be recreated in new thread context; otherwise, false.
         /// </summary>
         protected internal bool NeedsToBeRecreated;
-
-        /// <summary>
-        /// AsyncCallback implementation used in asynchronous invocations.
-        /// </summary>
-        /// <param name="ar">IAsyncResult instance.</param>
-        internal static void AsyncCallbackMethod(IAsyncResult ar)
-        {
-            var result = (AsyncResult)ar;
-            result.AsyncDelegate.GetType().GetMethod("EndInvoke").Invoke(result.AsyncDelegate, new[] { ar });
-            ((SevenZipBase)ar.AsyncState).ReleaseContext();
-        }
 
         internal virtual void SaveContext()
         {

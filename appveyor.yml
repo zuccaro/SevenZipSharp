@@ -26,8 +26,8 @@ after_build:
   - cmd: nuget pack package.nuspec -version "%APPVEYOR_BUILD_VERSION%"
 
 after_test: 
-  - cmd: Stage\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[SevenZip.Tests]* -[nunit.framework]*" -target:"Stage\packages\NUnit.ConsoleRunner.3.8.0\tools\nunit3-console.exe" -targetargs:"/domain:single Stage/Release/SevenZip.Tests.dll" -output:coverage.xml
-  - cmd: Stage\packages\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r %COVERALLS_REPO_TOKEN%
+  - cmd: dotnet test SevenZip.Tests\SevenZip.Tests.csproj /p:CollectCoverage=true --no-build --configuration Release /p:CoverletOutput="%APPVEYOR_BUILD_FOLDER%\coverage.xml" /p:CoverletOutputFormat=opencover
+  - cmd: Stage\packages\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover "%APPVEYOR_BUILD_FOLDER%\coverage.xml" -r %COVERALLS_REPO_TOKEN%
 
 artifacts:
   - path: 'Squid-Box.SevenZip*.nupkg'
