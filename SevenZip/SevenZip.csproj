@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProductVersion>9.0.30729</ProductVersion>
     <AssemblyName>SevenZipSharp</AssemblyName>
-    <TargetFramework>net4.5</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>SevenZip.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags />
@@ -95,5 +95,9 @@
     <EmbeddedResource Include="sfx\7zxSD_LZMA2_x64.sfx" />
     <EmbeddedResource Include="sfx\7zxSD_LZMA_x64.sfx" />
     <EmbeddedResource Include="sfx\7zxSD_PPMd_x64.sfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+    <PackageReference Include="System.Security.Permissions" Version="4.5.0" />
   </ItemGroup>
 </Project>

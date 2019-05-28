@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Threading.Tasks;
 
     partial class SevenZipCompressor
     {
@@ -35,7 +36,8 @@
         public void BeginCompressFiles(string archiveName, params string[] fileFullNames)
         {
             SaveContext();
-            new CompressFiles1Delegate(CompressFiles).BeginInvoke(archiveName, fileFullNames, AsyncCallbackImplementation, this);
+            Task.Run(() => new CompressFiles1Delegate(CompressFiles).Invoke(archiveName, fileFullNames))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -47,7 +49,8 @@
         public void BeginCompressFiles(Stream archiveStream, params string[] fileFullNames)
         {
             SaveContext();
-            new CompressFiles2Delegate(CompressFiles).BeginInvoke(archiveStream, fileFullNames, AsyncCallbackImplementation, this);
+            Task.Run(() => new CompressFiles2Delegate(CompressFiles).Invoke(archiveStream, fileFullNames))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -59,7 +62,8 @@
         public void BeginCompressFiles(string archiveName, int commonRootLength, params string[] fileFullNames)
         {
             SaveContext();
-            new CompressFiles3Delegate(CompressFiles).BeginInvoke(archiveName, commonRootLength, fileFullNames, AsyncCallbackImplementation, this);
+            Task.Run(() => new CompressFiles3Delegate(CompressFiles).Invoke(archiveName, commonRootLength, fileFullNames))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -72,7 +76,8 @@
         public void BeginCompressFiles(Stream archiveStream, int commonRootLength, params string[] fileFullNames)
         {
             SaveContext();
-            new CompressFiles4Delegate(CompressFiles).BeginInvoke(archiveStream, commonRootLength, fileFullNames, AsyncCallbackImplementation, this);
+            Task.Run(() => new CompressFiles4Delegate(CompressFiles).Invoke(archiveStream, commonRootLength, fileFullNames))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -84,7 +89,8 @@
         public void BeginCompressFilesEncrypted(string archiveName, string password, params string[] fileFullNames  )
         {
             SaveContext();
-            new CompressFilesEncrypted1Delegate(CompressFilesEncrypted).BeginInvoke(archiveName, password, fileFullNames, AsyncCallbackImplementation, this);
+            Task.Run(() => new CompressFilesEncrypted1Delegate(CompressFilesEncrypted).Invoke(archiveName, password, fileFullNames))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -97,7 +103,8 @@
         public void BeginCompressFilesEncrypted(Stream archiveStream, string password, params string[] fileFullNames)
         {
             SaveContext();
-            new CompressFilesEncrypted2Delegate(CompressFilesEncrypted).BeginInvoke(archiveStream, password, fileFullNames, AsyncCallbackImplementation, this);
+            Task.Run(() => new CompressFilesEncrypted2Delegate(CompressFilesEncrypted).Invoke(archiveStream, password, fileFullNames))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -110,7 +117,8 @@
         public void BeginCompressFilesEncrypted(string archiveName, int commonRootLength, string password, params string[] fileFullNames)
         {
             SaveContext();
-            new CompressFilesEncrypted3Delegate(CompressFilesEncrypted).BeginInvoke(archiveName, commonRootLength, password,fileFullNames, AsyncCallbackImplementation, this);
+            Task.Run(() => new CompressFilesEncrypted3Delegate(CompressFilesEncrypted).Invoke(archiveName, commonRootLength, password, fileFullNames))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -124,7 +132,8 @@
         public void BeginCompressFilesEncrypted(Stream archiveStream, int commonRootLength, string password, params string[] fileFullNames)
         {
             SaveContext();
-            new CompressFilesEncrypted4Delegate(CompressFilesEncrypted).BeginInvoke(archiveStream, commonRootLength, password, fileFullNames, AsyncCallbackImplementation, this);
+            Task.Run(() => new CompressFilesEncrypted4Delegate(CompressFilesEncrypted).Invoke(archiveStream, commonRootLength, password, fileFullNames))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         #endregion
@@ -142,7 +151,8 @@
         public void BeginCompressDirectory(string directory, string archiveName, string password = "", string searchPattern = "*", bool recursion = true)
         {
             SaveContext();
-            new CompressDirectoryDelegate(CompressDirectory).BeginInvoke(directory, archiveName, password, searchPattern, recursion, AsyncCallbackImplementation, this);
+            Task.Run(() => new CompressDirectoryDelegate(CompressDirectory).Invoke(directory, archiveName, password, searchPattern, recursion))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -157,7 +167,8 @@
         public void BeginCompressDirectory(string directory, Stream archiveStream, string password , string searchPattern = "*", bool recursion = true)
         {
             SaveContext();
-            new CompressDirectory2Delegate(CompressDirectory).BeginInvoke(directory, archiveStream, password, searchPattern, recursion, AsyncCallbackImplementation, this);
+            Task.Run(() => new CompressDirectory2Delegate(CompressDirectory).Invoke(directory, archiveStream, password, searchPattern, recursion))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         #endregion
@@ -174,7 +185,8 @@
         public void BeginCompressStream(Stream inStream, Stream outStream, string password = "")
         {
             SaveContext();
-            new CompressStreamDelegate(CompressStream).BeginInvoke(inStream, outStream, password, AsyncCallbackImplementation, this);            
+            Task.Run(() => new CompressStreamDelegate(CompressStream).Invoke(inStream, outStream, password))
+                .ContinueWith(_ => ReleaseContext());
 
         }
         #endregion
@@ -190,7 +202,8 @@
         public void BeginModifyArchive(string archiveName, IDictionary<int, string> newFileNames, string password = "")
         {
             SaveContext();
-            new ModifyArchiveDelegate(ModifyArchive).BeginInvoke(archiveName, newFileNames, password, AsyncCallbackImplementation, this);
+            Task.Run(() => new ModifyArchiveDelegate(ModifyArchive).Invoke(archiveName, newFileNames, password))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         #endregion
