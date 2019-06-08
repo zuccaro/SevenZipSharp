@@ -3,8 +3,8 @@
 	<metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 		<id>Squid-Box.SevenZipSharp</id>
 		<version>1.1.1</version>
-		<authors>Joel Ahlgren, Thomas Piart, markhor</authors>
-		<summary>Managed 7-zip library written in C# (.NET 4.5) that provides data (self-)extraction and compression (all 7-zip formats are supported).</summary>
+		<authors>Joel Ahlgren, Thomas Piart, markhor, Thomas Caudal</authors>
+		<summary>Managed 7-zip library written in C# (.NET Standard 2.0) that provides data (self-)extraction and compression (all 7-zip formats are supported).</summary>
 		<description>Wraps 7z.dll or any compatible one and makes use of LZMA SDK.</description>
 		<language>en-US</language>
 		<licenseUrl>https://github.com/squid-box/SevenZipSharp/blob/master/license</licenseUrl>
@@ -13,8 +13,8 @@
 		<releaseNotes>Now accepts IDictionaries where applicable, thanks to GitHub user rotvel.</releaseNotes>
 	</metadata>
 	<files>
-		<file src="Stage\Release\SevenZipSharp.dll" target="lib\net45" />
-		<file src="Stage\Release\SevenZipSharp.pdb" target="lib\net45" />
+		<file src="Stage\Release\netstandard2.0\SevenZipSharp.dll" target="lib\netstandard2.0" />
+		<file src="Stage\Release\netstandard2.0\SevenZipSharp.pdb" target="lib\netstandard2.0" />
 		<file src="license" />
 	</files>
 </package>
