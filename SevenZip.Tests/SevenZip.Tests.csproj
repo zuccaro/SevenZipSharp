@@ -15,7 +15,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
+    <PackageReference Condition="'$(TargetFramework)' == 'netstandard2.0'" Include="NUnit3TestAdapter" Version="3.13.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.*" />
     <PackageReference Include="Microsoft.CSharp" Version="4.*" />
     <PackageReference Include="System.Net.Http" Version="4.*" />
@@ -31,9 +31,6 @@
     <PackageReference Include="NUnit.Extension.VSProjectLoader" Version="3.7.0" />
     <PackageReference Include="NUnit.Runners" Version="3.8.0" />
     <PackageReference Include="coverlet.msbuild" Version="2.1.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SevenZipTests.snk" />
@@ -79,5 +76,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SevenZip\SevenZip.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="NUnit3.TestAdapter" Condition="'$(TargetFramework)' == 'net45'">
+      <HintPath>%USERPROFILE%\.nuget\packages\nunit3testadapter\3.13.0\build\net35\NUnit3.TestAdapter.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
