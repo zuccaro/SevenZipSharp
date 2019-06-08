@@ -29,38 +29,6 @@
         [FieldOffset(0)] private ushort _vt;
 
         /// <summary>
-        /// IntPtr variant value.
-        /// </summary>
-        [FieldOffset(8)] private IntPtr _value;
-
-        /*/// <summary>
-        /// Byte variant value.
-        /// </summary>
-        [FieldOffset(8)] 
-        private byte _ByteValue;*/
-
-        /// <summary>
-        /// Signed int variant value.
-        /// </summary>
-        [FieldOffset(8)]
-        private Int32 _int32Value;
-
-        /// <summary>
-        /// Unsigned int variant value.
-        /// </summary>
-        [FieldOffset(8)] private UInt32 _uInt32Value;
-
-        /// <summary>
-        /// Long variant value.
-        /// </summary>
-        [FieldOffset(8)] private Int64 _int64Value;
-
-        /// <summary>
-        /// Unsigned long variant value.
-        /// </summary>
-        [FieldOffset(8)] private UInt64 _uInt64Value;
-
-        /// <summary>
         /// FILETIME variant value.
         /// </summary>
         [FieldOffset(8)] private readonly FILETIME _fileTime;
@@ -90,170 +58,32 @@
         /// <summary>
         /// Gets or sets the pointer value of the COM variant
         /// </summary>
-        public IntPtr Value
-        {
-            private get
-            {
-                return _value;
-            }
-
-            set
-            {
-                _value = value;
-            }
-        }
-
-        /*
-        /// <summary>
-        /// Gets or sets the byte value of the COM variant
-        /// </summary>
-        public byte ByteValue
-        {
-            get
-            {
-                return _ByteValue;
-            }
-
-            set
-            {
-                _ByteValue = value;
-            }
-        }
-*/
+        [field: FieldOffset(8)]
+        public IntPtr Value { get; set; }
 
         /// <summary>
         /// Gets or sets the UInt32 value of the COM variant.
         /// </summary>
-        public UInt32 UInt32Value
-        {
-            private get
-            {
-                return _uInt32Value;
-            }
-            set
-            {
-                _uInt32Value = value;
-            }
-        }
+        [field: FieldOffset(8)]
+        public uint UInt32Value { get; set; }
 
         /// <summary>
         /// Gets or sets the UInt32 value of the COM variant.
         /// </summary>
-        public Int32 Int32Value
-        {
-            private get
-            {
-                return _int32Value;
-            }
-            set
-            {
-                _int32Value = value;
-            }
-        }
+        [field: FieldOffset(8)]
+        public int Int32Value { get; set; }
 
         /// <summary>
         /// Gets or sets the Int64 value of the COM variant
         /// </summary>
-        public Int64 Int64Value
-        {
-            private get
-            {
-                return _int64Value;
-            }
-
-            set
-            {
-                _int64Value = value;
-            }
-        }
+        [field: FieldOffset(8)]
+        public long Int64Value { get; set; }
 
         /// <summary>
         /// Gets or sets the UInt64 value of the COM variant
         /// </summary>
-        public UInt64 UInt64Value
-        {
-            private get
-            {
-                return _uInt64Value;
-            }
-            set
-            {
-                _uInt64Value = value;
-            }
-        }
-
-        /*
-        /// <summary>
-        /// Gets or sets the FILETIME value of the COM variant
-        /// </summary>
-        public System.Runtime.InteropServices.ComTypes.FILETIME FileTime
-        {
-            get
-            {
-                return _fileTime;
-            }
-
-            set
-            {
-                _fileTime = value;
-            }
-        }
-*/
-
-        /*/// <summary>
-        /// Gets or sets variant type (ushort).
-        /// </summary>
-        public ushort VarTypeNative
-        {
-            get
-            {
-                return _vt;
-            }
-
-            set
-            {
-                _vt = value;
-            }
-        }*/
-
-        /*/// <summary>
-        /// Clears variant
-        /// </summary>
-        public void Clear()
-        {
-            switch (VarType)
-            {
-                case VarEnum.VT_EMPTY:
-                    break;
-                case VarEnum.VT_NULL:
-                case VarEnum.VT_I2:
-                case VarEnum.VT_I4:
-                case VarEnum.VT_R4:
-                case VarEnum.VT_R8:
-                case VarEnum.VT_CY:
-                case VarEnum.VT_DATE:
-                case VarEnum.VT_ERROR:
-                case VarEnum.VT_BOOL:
-                case VarEnum.VT_I1:
-                case VarEnum.VT_UI1:
-                case VarEnum.VT_UI2:
-                case VarEnum.VT_UI4:
-                case VarEnum.VT_I8:
-                case VarEnum.VT_UI8:
-                case VarEnum.VT_INT:
-                case VarEnum.VT_UINT:
-                case VarEnum.VT_HRESULT:
-                case VarEnum.VT_FILETIME:
-                    _vt = 0;
-                    break;
-                default:
-                    if (NativeMethods.PropVariantClear(ref this) != (int)OperationResult.Ok)
-                    {
-                        throw new ArgumentException("PropVariantClear has failed for some reason.");
-                    }
-                    break;
-            }
-        }*/
+        [field: FieldOffset(8)]
+        public ulong UInt64Value { get; set; }
 
         /// <summary>
         /// Gets the object for this PropVariant.
@@ -421,7 +251,7 @@
     }
 
     /// <summary>
-    /// Codes of item properities
+    /// Codes of item properties
     /// </summary>
     internal enum ItemPropId : uint
     {
@@ -687,22 +517,6 @@
         UserDefined = 0x10000
     }
 
-    /*/// <summary>
-    /// Codes of archive properties or modes.
-    /// </summary>
-    internal enum ArchivePropId : uint
-    {
-        Name = 0,
-        ClassID,
-        Extension,
-        AddExtension,
-        Update,
-        KeepName,
-        StartSignature,
-        FinishSignature,
-        Associate
-    }*/
-
     /// <summary>
     /// PropId string names dictionary wrapper.
     /// </summary>
@@ -893,7 +707,7 @@
         void PrepareOperation(AskMode askExtractMode);
 
         /// <summary>
-        /// Sets the operaton result
+        /// Sets the operation result
         /// </summary>
         /// <param name="operationResult">The operation result</param>
         void SetOperationResult(OperationResult operationResult);
@@ -1193,7 +1007,7 @@
         /// </summary>
         /// <param name="index">Item index</param>
         /// <param name="name">Name</param>
-        /// <param name="propId">Property identificator</param>
+        /// <param name="propId">Property identifier</param>
         /// <param name="varType">Variant type</param>
         void GetPropertyInfo(
             uint index,
@@ -1212,7 +1026,7 @@
         /// </summary>
         /// <param name="index">Item index</param>
         /// <param name="name">Name</param>
-        /// <param name="propId">Property identificator</param>
+        /// <param name="propId">Property identifier</param>
         /// <param name="varType">Variant type</param>
         void GetArchivePropertyInfo(
             uint index,

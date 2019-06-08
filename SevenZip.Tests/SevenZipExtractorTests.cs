@@ -19,7 +19,7 @@
             {
                 var result = new List<TestFile>();
 
-                foreach (var file in Directory.GetFiles(Path.Combine(TestContext.CurrentContext.WorkDirectory, "TestData")))
+                foreach (var file in Directory.GetFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData")))
                 {
                     if (file.Contains("multi"))
                     {
