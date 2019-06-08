@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Threading.Tasks;
 
     partial class SevenZipExtractor
     {
@@ -102,7 +103,8 @@
         public void BeginExtractArchive(string directory)
         {
             SaveContext();
-            new ExtractArchiveDelegate(ExtractArchive).BeginInvoke(directory, AsyncCallbackImplementation, this);
+            Task.Run(() => new ExtractArchiveDelegate(ExtractArchive).Invoke(directory))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -113,7 +115,8 @@
         public void BeginExtractFile(string fileName, Stream stream)
         {
             SaveContext();
-            new ExtractFileByFileNameDelegate(ExtractFile).BeginInvoke(fileName, stream, AsyncCallbackImplementation, this);
+            Task.Run(() => new ExtractFileByFileNameDelegate(ExtractFile).Invoke(fileName, stream))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -124,7 +127,8 @@
         public void BeginExtractFile(int index, Stream stream)
         {
             SaveContext();
-            new ExtractFileByIndexDelegate(ExtractFile).BeginInvoke(index, stream, AsyncCallbackImplementation, this);
+            Task.Run(() => new ExtractFileByIndexDelegate(ExtractFile).Invoke(index, stream))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -135,7 +139,8 @@
         public void BeginExtractFiles(string directory, params int[] indexes)
         {
             SaveContext();
-            new ExtractFiles1Delegate(ExtractFiles).BeginInvoke(directory, indexes, AsyncCallbackImplementation, this);
+            Task.Run(() => new ExtractFiles1Delegate(ExtractFiles).Invoke(directory, indexes))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -146,7 +151,8 @@
         public void BeginExtractFiles(string directory, params string[] fileNames)
         {
             SaveContext();
-            new ExtractFiles2Delegate(ExtractFiles).BeginInvoke(directory, fileNames, AsyncCallbackImplementation, this);
+            Task.Run(() => new ExtractFiles2Delegate(ExtractFiles).Invoke(directory, fileNames))
+                .ContinueWith(_ => ReleaseContext());
         }
 
         /// <summary>
@@ -158,7 +164,8 @@
         public void BeginExtractFiles(ExtractFileCallback extractFileCallback)
         {
             SaveContext();
-            new ExtractFiles3Delegate(ExtractFiles).BeginInvoke(extractFileCallback, AsyncCallbackImplementation, this);
+            Task.Run(() => new ExtractFiles3Delegate(ExtractFiles).Invoke(extractFileCallback))
+                .ContinueWith(_ => ReleaseContext());
         }
     }
 }
