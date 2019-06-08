@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProductVersion>9.0.30729</ProductVersion>
     <AssemblyName>SevenZipSharp</AssemblyName>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>SevenZip.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags />
@@ -38,15 +38,8 @@
     <DocumentationFile>..\Stage\$(Configuration)\SevenZip.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;UNMANAGED, COMPRESS, LZMA_STREAM, DOTNET20; SFX</DefineConstants>
+    <DefineConstants>TRACE;UNMANAGED</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Deploy|AnyCPU' ">
-    <DocumentationFile>..\Stage\$(Configuration)\SevenZip.XML</DocumentationFile>
-    <DefineConstants>TRACE;UNMANAGED, COMPRESS, LZMA_STREAM, CS2</DefineConstants>
-    <Optimize>true</Optimize>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.configuration" />
@@ -97,7 +90,7 @@
     <EmbeddedResource Include="sfx\7zxSD_PPMd_x64.sfx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
-    <PackageReference Include="System.Security.Permissions" Version="4.5.0" />
+    <PackageReference Condition="'$(TargetFramework)' == 'netstandard2.0'" Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+    <PackageReference Condition="'$(TargetFramework)' == 'netstandard2.0'" Include="System.Security.Permissions" Version="4.5.0" />
   </ItemGroup>
 </Project>
