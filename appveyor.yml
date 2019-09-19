@@ -50,4 +50,4 @@ deploy:
     api_key:
       secure: pVc5Zdxjq9F5IotFOaz7SFD9hUo6e8R74ZeGIpiGlgaE7QI8K+j5oOJUkjKkUa5W
     on:
-    branch: master
+      branch: master
