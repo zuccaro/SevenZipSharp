@@ -21,7 +21,7 @@
 
                 foreach (var file in Directory.GetFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData")))
                 {
-                    if (file.Contains("multi"))
+                    if (file.Contains("multi") || file.Contains("long_path"))
                     {
                         continue;
                     }
