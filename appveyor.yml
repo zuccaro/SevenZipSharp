@@ -36,17 +36,18 @@ artifacts:
 
 deploy:
   - provider: NuGet
-  api_key:
-    secure: Prw8zFhOF/86T5reyuCU+NIfxXPUpFHOljuKnlxeA4MrHuVm1QeAMF3Tq7R99bmP
-  artifact: /SevenZip.*\.nupkg/
-  skip_symbols: false
-  on:
-    branch: master
+    api_key:
+      secure: Prw8zFhOF/86T5reyuCU+NIfxXPUpFHOljuKnlxeA4MrHuVm1QeAMF3Tq7R99bmP
+    artifact: /SevenZip.*\.nupkg/
+    skip_symbols: false
+    on:
+      branch: master
+
   - provider: NuGet
     server: https://nuget.pkg.github.com/squid-box/index.json
-  artifact: /SevenZip.*\.nupkg/
-  skip_symbols: false
-  api_key:
-    secure: pVc5Zdxjq9F5IotFOaz7SFD9hUo6e8R74ZeGIpiGlgaE7QI8K+j5oOJUkjKkUa5W
-  on:
+    artifact: /SevenZip.*\.nupkg/
+    skip_symbols: false
+    api_key:
+      secure: pVc5Zdxjq9F5IotFOaz7SFD9hUo6e8R74ZeGIpiGlgaE7QI8K+j5oOJUkjKkUa5W
+    on:
     branch: master
