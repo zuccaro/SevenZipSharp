@@ -292,19 +292,18 @@ namespace SevenZip
                         }
 
                         #endregion
-                        
+
+                        fileName = Path.Combine(_directory, _directoryStructure? entryName : Path.GetFileName(entryName));
+                        _archive.GetProperty(index, ItemPropId.IsDirectory, ref data);
                         try
                         {
-                            fileName = Path.Combine(RemoveIllegalCharacters(_directory, true), RemoveIllegalCharacters(_directoryStructure ? entryName : Path.GetFileName(entryName)));
-                            ValidateFileNameAndCreateDirectory(fileName);
+                            fileName = ValidateFileName(fileName);
                         }
                         catch (Exception e)
                         {
                             AddException(e);
                             goto FileExtractionStartedLabel;
                         }
-
-                        _archive.GetProperty(index, ItemPropId.IsDirectory, ref data);
                         if (!NativeMethods.SafeCast(data, false))
                         {
                             #region Branch
@@ -522,7 +521,7 @@ namespace SevenZip
         /// </summary>
         /// <param name="fileName">File name</param>
         /// <returns>The valid file name</returns>
-        private static void ValidateFileNameAndCreateDirectory(string fileName)
+        private static string ValidateFileName(string fileName)
         {
             if (String.IsNullOrEmpty(fileName))
             {
@@ -531,35 +530,11 @@ namespace SevenZip
 
             var splittedFileName = new List<string>(fileName.Split(Path.DirectorySeparatorChar));
 
-            if (splittedFileName.Count > 2)
-            {
-                string tfn = splittedFileName[0];
-                for (int i = 1; i < splittedFileName.Count - 1; i++)
-                {
-                    tfn += Path.DirectorySeparatorChar + splittedFileName[i];
-                    if (!Directory.Exists(tfn))
-                    {
-                        Directory.CreateDirectory(tfn);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// removes the invalid character in file path.
-        /// </summary>
-        /// <param name="str"></param>
-        /// <param name="isDirectory"></param>
-        /// <returns></returns>
-        private static string RemoveIllegalCharacters(string str, bool isDirectory = false)
-        {
-            var splittedFileName = new List<string>(str.Split(Path.DirectorySeparatorChar));
-
             foreach (char chr in Path.GetInvalidFileNameChars())
             {
                 for (int i = 0; i < splittedFileName.Count; i++)
                 {
-                    if (isDirectory && chr == ':' && i == 0)
+                    if (chr == ':' && i == 0)
                     {
                         continue;
                     }
@@ -574,12 +549,25 @@ namespace SevenZip
                 }
             }
 
-            if (str.StartsWith(new string(Path.DirectorySeparatorChar, 2),
+            if (fileName.StartsWith(new string(Path.DirectorySeparatorChar, 2),
                                     StringComparison.CurrentCultureIgnoreCase))
             {
                 splittedFileName.RemoveAt(0);
                 splittedFileName.RemoveAt(0);
                 splittedFileName[0] = new string(Path.DirectorySeparatorChar, 2) + splittedFileName[0];
+            }
+
+            if (splittedFileName.Count > 2)
+            {
+                string tfn = splittedFileName[0];
+                for (int i = 1; i < splittedFileName.Count - 1; i++)
+                {
+                    tfn += Path.DirectorySeparatorChar + splittedFileName[i];
+                    if (!Directory.Exists(tfn))
+                    {
+                        Directory.CreateDirectory(tfn);
+                    }
+                }
             }
 
             return String.Join(new string(Path.DirectorySeparatorChar, 1), splittedFileName.ToArray());
