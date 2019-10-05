@@ -28,7 +28,7 @@ after_build:
   - cmd: nuget pack package.nuspec -version "%APPVEYOR_BUILD_VERSION%"
 
 after_test:
-  - ps: Invoke-Expression ($env:USERPROFILE + '\.nuget\packages\OpenCover\4.7.922\tools\OpenCover.Console.exe -register:Path32 -filter:"+[*]* -[SevenZip.Tests]* -[nunit.framework]*" -target:"' + $env:USERPROFILE + '\.nuget\packages\nunit.consolerunner\3.10.0\tools\nunit3-console.exe" -targetargs:"/domain:single Stage/Release/net45/SevenZip.Tests.dll" -output:coverage.xml')
+  - ps: Invoke-Expression ($env:USERPROFILE + '\.nuget\packages\OpenCover\4.7.922\tools\OpenCover.Console.exe -register:Path64 -filter:"+[*]* -[SevenZip.Tests]* -[nunit.framework]*" -target:"' + $env:USERPROFILE + '\.nuget\packages\nunit.consolerunner\3.10.0\tools\nunit3-console.exe" -targetargs:"/domain:single Stage/Release/net45/SevenZip.Tests.dll" -output:coverage.xml')
   - ps: Invoke-Expression ($env:USERPROFILE + '\.nuget\packages\coveralls.io.\1.4.2\tools\coveralls.net.exe --opencover "coverage.xml" -r %COVERALLS_REPO_TOKEN%')
 
 artifacts:
@@ -48,6 +48,6 @@ deploy:
     artifact: /SevenZip.*\.nupkg/
     skip_symbols: false
     api_key:
-      secure: pVc5Zdxjq9F5IotFOaz7SFD9hUo6e8R74ZeGIpiGlgaE7QI8K+j5oOJUkjKkUa5W
+      secure: ZPIq0FUw6OnLtQgiASZ014vdxeKzhUhvwH+GGDuDGIJbWBeY0MdWU095B/jgVVAX
     on:
       branch: master
