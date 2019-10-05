@@ -33,6 +33,10 @@ after_test:
 
 artifacts:
   - path: 'Squid-Box.SevenZip*.nupkg'
+    name: NuGet
+
+  - path: 'coverage.xml'
+    name: Code Coverage
 
 deploy:
   - provider: NuGet
