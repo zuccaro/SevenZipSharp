@@ -480,8 +480,6 @@ namespace SevenZip
                     }
                     catch (ObjectDisposedException) { }
                     _fileStream = null;
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
                 }
                 var iea = new FileInfoEventArgs(
                     _extractor.ArchiveFileData[_currentIndex], PercentDoneEventArgs.ProducePercentDone(_doneRate));                
