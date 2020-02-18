@@ -231,17 +231,20 @@ namespace SevenZip
                         switch (hresult)
                         {
                             case -2147024784:
-                                exception = new SevenZipException("There is not enough space on the disk. (0x80070070: DISK_FULL)");
+                                exception = new SevenZipException("There is not enough space on the disk. (0x80070070: ERROR_DISK_FULL)");
                                 break;
                             case -2147024864:
-                                exception = new SevenZipException("The file is being used by another process. (0x80070020: SHARING_VIOLATION)");
+                                exception = new SevenZipException("The file is being used by another process. (0x80070020: ERROR_SHARING_VIOLATION)");
                                 break;
                             case -2147024882:
-                                exception = new SevenZipException("There is not enough memory (RAM). (0x8007000E: OUT_OF_MEMORY)");
+                                exception = new SevenZipException("There is not enough memory (RAM). (0x8007000E: E_OUTOFMEMORY)");
+                                break;
+                            case -2147024809:
+                                exception = new SevenZipException("Invalid arguments provided. (0x80070057: E_INVALIDARG)");
                                 break;
                             default:
                                 exception = new SevenZipException(
-                                    $"Execution has failed due to an internal SevenZipSharp issue (0x{hresult:x}).\n" +
+                                    $"Execution has failed due to an internal SevenZipSharp issue (0x{hresult:x} / {hresult}).\n" +
                                     "Please report it to https://github.com/squid-box/SevenZipSharp/issues/, include the release number, 7z version used, and attach the archive.");
                                 break;
                         }
