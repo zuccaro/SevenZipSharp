@@ -300,7 +300,7 @@
             compressor.CustomParameters.Add("pass", "4");
             //Multi-threading on
             compressor.CustomParameters.Add("mt", "on");
-            
+
             compressor.CompressDirectory("TestData", TemporaryFile, "test");
 
 			Assert.IsTrue(File.Exists(TemporaryFile));
@@ -346,6 +346,36 @@
 			    Assert.AreEqual(Directory.GetFiles("TestData").Length, extractor.FilesCount);
 		    }
 		}
+
+        [Test]
+        public void CompressWithCustomParameters_OnlyWorksWithCorrectMethod()
+        {
+            var compressor = new SevenZipCompressor
+            {
+                ArchiveFormat = OutArchiveFormat.Zip,
+                CompressionMethod = CompressionMethod.Lzma
+            };
+
+            // Check parameters for BZip2 compression.
+            compressor.CustomParameters.Add("d", "900000");
+            Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
+            compressor.CustomParameters.Remove("d");
+
+            // Check parameters for PPMd compression.
+            compressor.CustomParameters.Add("mem", "25");
+            Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
+            compressor.CustomParameters.Remove("mem");
+            compressor.CustomParameters.Add("o", "10");
+            Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
+            compressor.CustomParameters.Remove("o");
+
+            // Check parameters for Deflate compression.
+            compressor.CustomParameters.Add("fb", "4");
+            Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
+            compressor.CustomParameters.Remove("fb");
+            compressor.CustomParameters.Add("pass", "4");
+            Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
+        }
 
         [Test, TestCaseSource(nameof(CompressionMethods))]
         public void CompressDifferentFormatsTest(CompressionMethod method)

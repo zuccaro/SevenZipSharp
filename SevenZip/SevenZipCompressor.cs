@@ -262,10 +262,9 @@ namespace SevenZip
                 {
                     var setter =
                         CompressionMode == CompressionMode.Create && _updateData.FileNamesToModify == null
-                            ? (ISetProperties) SevenZipLibraryManager.OutArchive(
-                                _archiveFormat, this)
-                            : (ISetProperties) SevenZipLibraryManager.InArchive(
-                                Formats.InForOutFormats[_archiveFormat], this);
+                            ? (ISetProperties) SevenZipLibraryManager.OutArchive(_archiveFormat, this)
+                            : (ISetProperties) SevenZipLibraryManager.InArchive(Formats.InForOutFormats[_archiveFormat], this);
+                    
                     if (setter == null)
                     {
                         if (!ThrowException(null,
@@ -300,37 +299,14 @@ namespace SevenZip
 
                     #region Initialize compression properties
 
-                    if (_compressionMethod == CompressionMethod.Default)
+                    names.Add(Marshal.StringToBSTR("x"));
+                    values.Add(new PropVariant());
+
+                    if (_compressionMethod != CompressionMethod.Default)
                     {
-                        names.Add(Marshal.StringToBSTR("x"));
-                        values.Add(new PropVariant());
-
-                        foreach (var pair in CustomParameters)
-                        {
-                            names.Add(Marshal.StringToBSTR(pair.Key));
-                            var pv = new PropVariant();
-
-                            if (pair.Key == "fb" || pair.Key == "pass" || pair.Key == "d")
-                            {
-                                pv.VarType = VarEnum.VT_UI4;
-                                pv.UInt32Value = Convert.ToUInt32(pair.Value, CultureInfo.InvariantCulture);
-                            }
-                            else
-                            {
-                                pv.VarType = VarEnum.VT_BSTR;
-                                pv.Value = Marshal.StringToBSTR(pair.Value);
-                            }
-
-                            values.Add(pv);
-                        }
-                    }
-                    else
-                    {
-                        names.Add(Marshal.StringToBSTR("x"));
                         names.Add(_archiveFormat == OutArchiveFormat.Zip
                             ? Marshal.StringToBSTR("m")
                             : Marshal.StringToBSTR("0"));
-                        values.Add(new PropVariant());
 
                         var pv = new PropVariant
                         {
@@ -339,25 +315,50 @@ namespace SevenZip
                         };
 
                         values.Add(pv);
+                    }
 
-                        foreach (var pair in CustomParameters)
+                    foreach (var pair in CustomParameters)
+                    {
+                        names.Add(Marshal.StringToBSTR(pair.Key));
+                        var pv = new PropVariant();
+
+                        #region Validate parameters against compression method.
+
+                        if (_compressionMethod != CompressionMethod.Ppmd && 
+                            (pair.Key.Equals("mem") || pair.Key.Equals("o")))
                         {
-                            names.Add(Marshal.StringToBSTR(pair.Key));
-                            pv = new PropVariant();
-
-                            if (pair.Key == "fb" || pair.Key == "pass" || pair.Key == "d")
-                            {
-                                pv.VarType = VarEnum.VT_UI4;
-                                pv.UInt32Value = Convert.ToUInt32(pair.Value, CultureInfo.InvariantCulture);
-                            }
-                            else
-                            {
-                                pv.VarType = VarEnum.VT_BSTR;
-                                pv.Value = Marshal.StringToBSTR(pair.Value);
-                            }
-
-                            values.Add(pv);
+                            ThrowException(null, new CompressionFailedException(
+                                $"Parameter \"{pair.Key}\" is only valid with the PPMd compression method."));
                         }
+
+                        if (_compressionMethod != CompressionMethod.Deflate &&
+                            (pair.Key.Equals("fb") || pair.Key.Equals("pass")))
+                        {
+                            ThrowException(null, new CompressionFailedException(
+                                $"Parameter \"{pair.Key}\" is only valid with the Deflate compression method."));
+                        }
+
+                        if (_compressionMethod != CompressionMethod.BZip2 &&
+                            pair.Key.Equals("d"))
+                        {
+                            ThrowException(null, new CompressionFailedException(
+                                $"Parameter \"{pair.Key}\" is only valid with the BZip2 compression method."));
+                        }
+
+                        #endregion
+
+                        if (pair.Key == "fb" || pair.Key == "pass" || pair.Key == "d")
+                        {
+                            pv.VarType = VarEnum.VT_UI4;
+                            pv.UInt32Value = Convert.ToUInt32(pair.Value, CultureInfo.InvariantCulture);
+                        }
+                        else
+                        {
+                            pv.VarType = VarEnum.VT_BSTR;
+                            pv.Value = Marshal.StringToBSTR(pair.Value);
+                        }
+
+                        values.Add(pv);
                     }
 
                     #endregion
