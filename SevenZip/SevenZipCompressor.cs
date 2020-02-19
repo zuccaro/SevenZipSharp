@@ -215,10 +215,6 @@ namespace SevenZip
 
             switch (_archiveFormat)
             {
-                case OutArchiveFormat.Zip:
-                {
-                    return method != CompressionMethod.Ppmd;
-                }
                 case OutArchiveFormat.GZip:
                 {
                     return method == CompressionMethod.Deflate;
@@ -347,7 +343,7 @@ namespace SevenZip
 
                         #endregion
 
-                        if (pair.Key == "fb" || pair.Key == "pass" || pair.Key == "d")
+                        if (pair.Key.Equals("fb") || pair.Key.Equals("pass") || pair.Key.Equals("o"))
                         {
                             pv.VarType = VarEnum.VT_UI4;
                             pv.UInt32Value = Convert.ToUInt32(pair.Value, CultureInfo.InvariantCulture);
