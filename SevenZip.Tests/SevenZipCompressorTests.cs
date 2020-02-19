@@ -377,6 +377,50 @@
             Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
         }
 
+        [Test]
+        public void CompressWithCustomParameters_Deflate()
+        {
+            var compressor = new SevenZipCompressor
+            {
+                ArchiveFormat = OutArchiveFormat.Zip,
+                CompressionMethod = CompressionMethod.Deflate
+            };
+
+            compressor.CustomParameters.Add("fb", "4");
+            compressor.CustomParameters.Add("pass", "4");
+
+            compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip");
+        }
+
+        [Test]
+        public void CompressWithCustomParameters_PPMd()
+        {
+            var compressor = new SevenZipCompressor
+            {
+                ArchiveFormat = OutArchiveFormat.Zip,
+                CompressionMethod = CompressionMethod.Ppmd
+            };
+
+            compressor.CustomParameters.Add("mem", "128m");
+            compressor.CustomParameters.Add("o", "9");
+
+            compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip");
+        }
+
+        [Test]
+        public void CompressWithCustomParameters_BZip2()
+        {
+            var compressor = new SevenZipCompressor
+            {
+                ArchiveFormat = OutArchiveFormat.Zip,
+                CompressionMethod = CompressionMethod.BZip2
+            };
+
+            compressor.CustomParameters.Add("d", "900000");
+
+            compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip");
+        }
+
         [Test, TestCaseSource(nameof(CompressionMethods))]
         public void CompressDifferentFormatsTest(CompressionMethod method)
         {
