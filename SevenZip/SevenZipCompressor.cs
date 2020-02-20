@@ -315,35 +315,38 @@ namespace SevenZip
 
                     foreach (var pair in CustomParameters)
                     {
-                        names.Add(Marshal.StringToBSTR(pair.Key));
-                        var pv = new PropVariant();
-
                         #region Validate parameters against compression method.
 
-                        if (_compressionMethod != CompressionMethod.Ppmd && 
+                        if (_compressionMethod != CompressionMethod.Ppmd &&
                             (pair.Key.Equals("mem") || pair.Key.Equals("o")))
                         {
                             ThrowException(null, new CompressionFailedException(
                                 $"Parameter \"{pair.Key}\" is only valid with the PPMd compression method."));
                         }
 
-                        if (_compressionMethod != CompressionMethod.Deflate &&
-                            (pair.Key.Equals("fb") || pair.Key.Equals("pass")))
-                        {
-                            ThrowException(null, new CompressionFailedException(
-                                $"Parameter \"{pair.Key}\" is only valid with the Deflate compression method."));
-                        }
+                        #endregion
 
-                        if (_compressionMethod != CompressionMethod.BZip2 &&
-                            pair.Key.Equals("d"))
+                        names.Add(Marshal.StringToBSTR(pair.Key));
+                        var pv = new PropVariant();
+
+                        #region List of parameters to cast as integers
+
+                        var integerParameters = new HashSet<string>
                         {
-                            ThrowException(null, new CompressionFailedException(
-                                $"Parameter \"{pair.Key}\" is only valid with the BZip2 compression method."));
-                        }
+                            "fb",
+                            "pass",
+                            "o",
+                            "yx",
+                            "a",
+                            "mc",
+                            "lc",
+                            "lp",
+                            "pb"
+                        };
 
                         #endregion
 
-                        if (pair.Key.Equals("fb") || pair.Key.Equals("pass") || pair.Key.Equals("o"))
+                        if (integerParameters.Contains(pair.Key))
                         {
                             pv.VarType = VarEnum.VT_UI4;
                             pv.UInt32Value = Convert.ToUInt32(pair.Value, CultureInfo.InvariantCulture);

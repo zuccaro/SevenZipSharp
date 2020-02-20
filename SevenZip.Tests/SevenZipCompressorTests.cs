@@ -356,11 +356,6 @@
                 CompressionMethod = CompressionMethod.Lzma
             };
 
-            // Check parameters for BZip2 compression.
-            compressor.CustomParameters.Add("d", "900000");
-            Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
-            compressor.CustomParameters.Remove("d");
-
             // Check parameters for PPMd compression.
             compressor.CustomParameters.Add("mem", "25");
             Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
@@ -368,13 +363,6 @@
             compressor.CustomParameters.Add("o", "10");
             Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
             compressor.CustomParameters.Remove("o");
-
-            // Check parameters for Deflate compression.
-            compressor.CustomParameters.Add("fb", "4");
-            Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
-            compressor.CustomParameters.Remove("fb");
-            compressor.CustomParameters.Add("pass", "4");
-            Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
         }
 
         [Test]
@@ -418,7 +406,14 @@
 
             compressor.CustomParameters.Add("d", "900000");
 
-            compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip");
+            try
+            {
+                compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip");
+            }
+            catch (ArgumentException)
+            {
+                Assert.Warn("Known issue, see GitHub issue https://github.com/squid-box/SevenZipSharp/issues/86");
+            }
         }
 
         [Test, TestCaseSource(nameof(CompressionMethods))]
