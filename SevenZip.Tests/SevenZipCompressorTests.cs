@@ -300,7 +300,7 @@
             compressor.CustomParameters.Add("pass", "4");
             //Multi-threading on
             compressor.CustomParameters.Add("mt", "on");
-            
+
             compressor.CompressDirectory("TestData", TemporaryFile, "test");
 
 			Assert.IsTrue(File.Exists(TemporaryFile));
@@ -346,6 +346,75 @@
 			    Assert.AreEqual(Directory.GetFiles("TestData").Length, extractor.FilesCount);
 		    }
 		}
+
+        [Test]
+        public void CompressWithCustomParameters_OnlyWorksWithCorrectMethod()
+        {
+            var compressor = new SevenZipCompressor
+            {
+                ArchiveFormat = OutArchiveFormat.Zip,
+                CompressionMethod = CompressionMethod.Lzma
+            };
+
+            // Check parameters for PPMd compression.
+            compressor.CustomParameters.Add("mem", "25");
+            Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
+            compressor.CustomParameters.Remove("mem");
+            compressor.CustomParameters.Add("o", "10");
+            Assert.Throws<CompressionFailedException>(() => compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip"));
+            compressor.CustomParameters.Remove("o");
+        }
+
+        [Test]
+        public void CompressWithCustomParameters_Deflate()
+        {
+            var compressor = new SevenZipCompressor
+            {
+                ArchiveFormat = OutArchiveFormat.Zip,
+                CompressionMethod = CompressionMethod.Deflate
+            };
+
+            compressor.CustomParameters.Add("fb", "4");
+            compressor.CustomParameters.Add("pass", "4");
+
+            compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip");
+        }
+
+        [Test]
+        public void CompressWithCustomParameters_PPMd()
+        {
+            var compressor = new SevenZipCompressor
+            {
+                ArchiveFormat = OutArchiveFormat.Zip,
+                CompressionMethod = CompressionMethod.Ppmd
+            };
+
+            compressor.CustomParameters.Add("mem", "128m");
+            compressor.CustomParameters.Add("o", "9");
+
+            compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip");
+        }
+
+        [Test]
+        public void CompressWithCustomParameters_BZip2()
+        {
+            var compressor = new SevenZipCompressor
+            {
+                ArchiveFormat = OutArchiveFormat.Zip,
+                CompressionMethod = CompressionMethod.BZip2
+            };
+
+            compressor.CustomParameters.Add("d", "900000");
+
+            try
+            {
+                compressor.CompressFiles(TemporaryFile, @"TestData\zip.zip");
+            }
+            catch (ArgumentException)
+            {
+                Assert.Warn("Known issue, see GitHub issue https://github.com/squid-box/SevenZipSharp/issues/86");
+            }
+        }
 
         [Test, TestCaseSource(nameof(CompressionMethods))]
         public void CompressDifferentFormatsTest(CompressionMethod method)
