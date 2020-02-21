@@ -277,16 +277,39 @@ namespace SevenZip
                             "Unfortunately, the creation of multi-volume non-7Zip archives is not implemented.");
                     }
 
-                    if (CustomParameters.ContainsKey("x") || CustomParameters.ContainsKey("m"))
+                    #region Check for "forbidden" parameters
+
+                    if (CustomParameters.ContainsKey("x"))
                     {
-                        if (
-                            !ThrowException(null,
+                        if (!ThrowException(null,
                                 new CompressionFailedException(
-                                    "The specified compression parameters are invalid.")))
+                                    "Use the \"CompressionLevel\" property instead of the \"x\" parameter.")))
                         {
                             return;
                         }
                     }
+
+                    if (CustomParameters.ContainsKey("em"))
+                    {
+                        if (!ThrowException(null,
+                            new CompressionFailedException(
+                                "Use the \"ZipEncryptionMethod\" property instead of the \"em\" parameter.")))
+                        {
+                            return;
+                        }
+                    }
+
+                    if (CustomParameters.ContainsKey("m"))
+                    {
+                        if (!ThrowException(null,
+                            new CompressionFailedException(
+                                "Use the \"CompressionMethod\" property instead of the \"m\" parameter.")))
+                        {
+                            return;
+                        }
+                    }
+
+                    #endregion
 
                     var names = new List<IntPtr>(2 + CustomParameters.Count);
                     var values = new List<PropVariant>(2 + CustomParameters.Count);
@@ -341,7 +364,8 @@ namespace SevenZip
                             "mc",
                             "lc",
                             "lp",
-                            "pb"
+                            "pb",
+                            "cp"
                         };
 
                         #endregion
