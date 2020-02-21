@@ -11,7 +11,7 @@
 		<projectUrl>https://github.com/squid-box/SevenZipSharp</projectUrl>
 		<tags>7z sevenzip sevenzipsharp 7-zip</tags>
 		<releaseNotes>
-			Improved Operation Result handling and better performance by removing excessive GC, thanks to GitHub user zylab-official.
+			Fixed several bugs in custom parameters for the SevenZipCompressor class.
 		</releaseNotes>
     <dependencies>
       <group targetFramework="net45" />
