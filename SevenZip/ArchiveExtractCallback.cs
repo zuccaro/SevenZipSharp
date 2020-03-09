@@ -543,22 +543,29 @@ namespace SevenZip
         /// <returns>The valid file name</returns>
         private static void ValidateFileNameAndCreateDirectory(string fileName)
         {
-            if (String.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName))
             {
-                throw new SevenZipArchiveException("some archive name is null or empty.");
+                throw new SevenZipArchiveException("Some archive name is null or empty.");
             }
 
-            var splittedFileName = new List<string>(fileName.Split(Path.DirectorySeparatorChar));
+            var splitFileName = new List<string>(fileName.Split(Path.DirectorySeparatorChar));
 
-            if (splittedFileName.Count > 2)
+            if (splitFileName.Count > 2)
             {
-                string tfn = splittedFileName[0];
-                for (int i = 1; i < splittedFileName.Count - 1; i++)
+                var tempFileName = splitFileName[0];
+                
+                for (var i = 1; i < splitFileName.Count - 1; i++)
                 {
-                    tfn += Path.DirectorySeparatorChar + splittedFileName[i];
-                    if (!Directory.Exists(tfn))
+                    tempFileName += Path.DirectorySeparatorChar + splitFileName[i];
+                    
+                    if (!Directory.Exists(tempFileName))
                     {
-                        Directory.CreateDirectory(tfn);
+                        // Don't try to create a UNC share root, eg "\\localhost\".
+                        if (tempFileName.StartsWith($"{Path.DirectorySeparatorChar}{Path.DirectorySeparatorChar}") && 
+                            tempFileName.LastIndexOf(Path.DirectorySeparatorChar) != 1)
+                        {
+                            Directory.CreateDirectory(tempFileName);
+                        }
                     }
                 }
             }
