@@ -548,26 +548,11 @@ namespace SevenZip
                 throw new SevenZipArchiveException("Some archive name is null or empty.");
             }
 
-            var splitFileName = new List<string>(fileName.Split(Path.DirectorySeparatorChar));
+            var destinationDirectory = Path.GetDirectoryName(fileName);
 
-            if (splitFileName.Count > 2)
+            if (!string.IsNullOrEmpty(destinationDirectory))
             {
-                var tempFileName = splitFileName[0];
-                
-                for (var i = 1; i < splitFileName.Count - 1; i++)
-                {
-                    tempFileName += Path.DirectorySeparatorChar + splitFileName[i];
-                    
-                    if (!Directory.Exists(tempFileName))
-                    {
-                        // Don't try to create a UNC share root, eg "\\localhost\".
-                        if (tempFileName.StartsWith($"{Path.DirectorySeparatorChar}{Path.DirectorySeparatorChar}") && 
-                            tempFileName.LastIndexOf(Path.DirectorySeparatorChar) != 1)
-                        {
-                            Directory.CreateDirectory(tempFileName);
-                        }
-                    }
-                }
+                Directory.CreateDirectory(destinationDirectory);
             }
         }
 
