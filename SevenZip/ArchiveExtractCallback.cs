@@ -543,24 +543,16 @@ namespace SevenZip
         /// <returns>The valid file name</returns>
         private static void ValidateFileNameAndCreateDirectory(string fileName)
         {
-            if (String.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName))
             {
-                throw new SevenZipArchiveException("some archive name is null or empty.");
+                throw new SevenZipArchiveException("Some archive name is null or empty.");
             }
 
-            var splittedFileName = new List<string>(fileName.Split(Path.DirectorySeparatorChar));
+            var destinationDirectory = Path.GetDirectoryName(fileName);
 
-            if (splittedFileName.Count > 2)
+            if (!string.IsNullOrEmpty(destinationDirectory))
             {
-                string tfn = splittedFileName[0];
-                for (int i = 1; i < splittedFileName.Count - 1; i++)
-                {
-                    tfn += Path.DirectorySeparatorChar + splittedFileName[i];
-                    if (!Directory.Exists(tfn))
-                    {
-                        Directory.CreateDirectory(tfn);
-                    }
-                }
+                Directory.CreateDirectory(destinationDirectory);
             }
         }
 
