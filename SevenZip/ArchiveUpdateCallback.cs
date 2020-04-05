@@ -312,29 +312,11 @@ namespace SevenZip
         /// </summary>
         public event EventHandler FileCompressionFinished;
 
-        private void OnFileCompression(FileNameEventArgs e)
-        {
-            if (FileCompressionStarted != null)
-            {
-                FileCompressionStarted(this, e);
-            }
-        }
+        private void OnFileCompression(FileNameEventArgs e) => FileCompressionStarted?.Invoke(this, e);
 
-        private void OnCompressing(ProgressEventArgs e)
-        {
-            if (Compressing != null)
-            {
-                Compressing(this, e);
-            }
-        }
+        private void OnCompressing(ProgressEventArgs e) => Compressing?.Invoke(this, e);
 
-        private void OnFileCompressionFinished(EventArgs e)
-        {
-            if (FileCompressionFinished != null)
-            {
-                FileCompressionFinished(this, e);
-            }
-        }
+        private void OnFileCompressionFinished(EventArgs e) => FileCompressionFinished?.Invoke(this, e);
 
         #endregion
 
@@ -535,9 +517,7 @@ namespace SevenZip
                         value.VarType = VarEnum.VT_FILETIME;
                         if (_updateData.Mode != InternalCompressionMode.Modify)
                         {
-                            value.Int64Value = _files == null
-                                               ? DateTime.Now.ToFileTime()
-                                               : _files[index].CreationTime.ToFileTime();
+                            value.Int64Value = _files?[index].CreationTime.ToFileTime() ?? _compressor.CustomTimestamp.GetValueOrDefault(DateTime.Now).ToFileTime();
                         }
                         else
                         {
@@ -548,9 +528,7 @@ namespace SevenZip
                         value.VarType = VarEnum.VT_FILETIME;
                         if (_updateData.Mode != InternalCompressionMode.Modify)
                         {
-                            value.Int64Value = _files == null
-                                               ? DateTime.Now.ToFileTime()
-                                               : _files[index].LastAccessTime.ToFileTime();
+                            value.Int64Value = _files?[index].LastAccessTime.ToFileTime() ?? _compressor.CustomTimestamp.GetValueOrDefault(DateTime.Now).ToFileTime();
                         }
                         else
                         {
@@ -561,9 +539,7 @@ namespace SevenZip
                         value.VarType = VarEnum.VT_FILETIME;
                         if (_updateData.Mode != InternalCompressionMode.Modify)
                         {
-                            value.Int64Value = _files == null
-                                               ? DateTime.Now.ToFileTime()
-                                               : _files[index].LastWriteTime.ToFileTime();
+                            value.Int64Value = _files?[index].LastWriteTime.ToFileTime() ?? _compressor.CustomTimestamp.GetValueOrDefault(DateTime.Now).ToFileTime();
                         }
                         else
                         {

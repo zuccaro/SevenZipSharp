@@ -42,6 +42,8 @@ namespace SevenZip
         /// </summary>
         public Dictionary<string, string> CustomParameters { get; private set; }
 
+        public DateTime? CustomTimestamp { get; set; }
+
         private int _volumeSize;
         private string _archiveName;
 
@@ -1519,7 +1521,7 @@ namespace SevenZip
                 pair => !ThrowException(null,
                     new ArgumentException(
                         "The specified stream dictionary contains an invalid stream corresponding to the archive entry \""
-                        + pair.Key + "\".", "streamDictionary"))))
+                        + pair.Key + "\".", nameof(streamDictionary)))))
             {
                 return;
             }
