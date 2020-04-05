@@ -42,7 +42,15 @@ namespace SevenZip
         /// </summary>
         public Dictionary<string, string> CustomParameters { get; private set; }
 
+        /// <summary>
+        /// Custom timestamp to override all timestamps when creating an archive
+        /// </summary>
         public DateTime? CustomTimestamp { get; set; }
+
+        /// <summary>
+        /// Solid compression flag, defaults to true
+        /// </summary>
+        public bool Solid { get; set; } = true;
 
         private int _volumeSize;
         private string _archiveName;
@@ -336,6 +344,12 @@ namespace SevenZip
                         };
 
                         values.Add(pv);
+                    }
+
+                    if (!Solid)
+                    {
+                        names.Add(Marshal.StringToBSTR("s"));
+                        values.Add(new PropVariant {VarType = VarEnum.VT_BSTR, Value = Marshal.StringToBSTR("off")});
                     }
 
                     foreach (var pair in CustomParameters)
