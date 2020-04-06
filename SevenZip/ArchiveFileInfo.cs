@@ -1,4 +1,6 @@
-﻿#if UNMANAGED
+﻿using System.Data.Common;
+
+#if UNMANAGED
 
 namespace SevenZip
 {
@@ -8,8 +10,11 @@ namespace SevenZip
     /// <summary>
     /// Struct for storing information about files in the 7-zip archive.
     /// </summary>
-    public struct ArchiveFileInfo
+    public struct ArchiveFileInfo  : IComparable
     {
+        public static implicit operator ArchiveFileInfo(string d) => new ArchiveFileInfo() {FileName = d};
+
+
         /// <summary>
         /// Gets or sets index of the file in the archive file table.
         /// </summary>
@@ -110,6 +115,13 @@ namespace SevenZip
         public override string ToString()
         {
             return "[" + Index.ToString(CultureInfo.CurrentCulture) + "] " + FileName;
+        }
+
+        public int CompareTo(object obj)
+        {
+            var other = (ArchiveFileInfo) obj;
+
+            return FileName.CompareTo(other.FileName);
         }
 
         /// <summary>

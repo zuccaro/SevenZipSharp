@@ -40,7 +40,7 @@ namespace SevenZip
         /// <summary>
         /// The names of the archive entries
         /// </summary>
-        private string[] _entries;
+        private ArchiveFileInfo[] _entries;
 
         /// <summary>
         /// Array of files to pack
@@ -150,7 +150,7 @@ namespace SevenZip
         /// <param name="updateData">The compression parameters.</param>
         /// <param name="directoryStructure">Preserve directory structure.</param>
         public ArchiveUpdateCallback(
-            IDictionary<string, Stream> streamDict,
+            IDictionary<ArchiveFileInfo, Stream> streamDict,
             SevenZipCompressor compressor, UpdateData updateData, bool directoryStructure)
         {
             Init(streamDict, compressor, updateData, directoryStructure);
@@ -165,7 +165,7 @@ namespace SevenZip
         /// <param name="updateData">The compression parameters.</param>
         /// <param name="directoryStructure">Preserve directory structure.</param>
         public ArchiveUpdateCallback(
-            IDictionary<string, Stream> streamDict, string password,
+            IDictionary<ArchiveFileInfo, Stream> streamDict, string password,
             SevenZipCompressor compressor, UpdateData updateData, bool directoryStructure)
             : base(password)
         {
@@ -236,12 +236,12 @@ namespace SevenZip
         }
 
         private void Init(
-            IDictionary<string, Stream> streamDict,
+            IDictionary<ArchiveFileInfo, Stream> streamDict,
             SevenZipCompressor compressor, UpdateData updateData, bool directoryStructure)
         {
             _streams = new Stream[streamDict.Count];
             streamDict.Values.CopyTo(_streams, 0);
-            _entries = new string[streamDict.Count];
+            _entries = new ArchiveFileInfo[streamDict.Count];
             streamDict.Keys.CopyTo(_entries, 0);
             _actualFilesCount = streamDict.Count;
             foreach (Stream str in _streams)
@@ -282,7 +282,7 @@ namespace SevenZip
                     _fileStream.BytesRead += IntEventArgsHandler;
                 }
                 _doneRate += 1.0f / _actualFilesCount;
-                var fiea = new FileNameEventArgs(_files != null? _files[index].Name : _entries[index],
+                var fiea = new FileNameEventArgs(_files != null? _files[index].Name : _entries[index].FileName,
                                                  PercentDoneEventArgs.ProducePercentDone(_doneRate));
                 OnFileCompression(fiea);
                 if (fiea.Cancel)
@@ -400,7 +400,7 @@ namespace SevenZip
                             {
                                 if (_entries != null)
                                 {
-                                    val = _entries[index];
+                                    val = _entries[index].FileName;
                                 }
                             }
                             else
@@ -559,7 +559,7 @@ namespace SevenZip
                                       ? _files[index].Extension.Substring(1)
                                       : _entries == null
                                           ? ""
-                                          : Path.GetExtension(_entries[index]);
+                                          : Path.GetExtension(_entries[index].FileName);
                                 value.Value = Marshal.StringToBSTR(val);
                             }
                             catch (ArgumentException)
