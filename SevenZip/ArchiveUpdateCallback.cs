@@ -388,6 +388,13 @@ namespace SevenZip
                         value.VarType = VarEnum.VT_BOOL;
                         value.UInt64Value = 0;
                         break;
+                    case ItemPropId.Comment:
+                        if (!string.IsNullOrEmpty((_entries?[index].Comment)))
+                        {
+                            value.VarType = VarEnum.VT_BSTR;
+                            value.Value = Marshal.StringToBSTR(_entries[index].Comment);
+                        }
+                        break;
                     case ItemPropId.Path:
                         #region Path
 
