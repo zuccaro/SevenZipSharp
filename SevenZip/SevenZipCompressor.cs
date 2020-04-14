@@ -346,7 +346,7 @@ namespace SevenZip
                         values.Add(pv);
                     }
 
-                    if (!Solid)
+                    if (!Solid && ArchiveFormat == OutArchiveFormat.SevenZip)
                     {
                         names.Add(Marshal.StringToBSTR("s"));
                         values.Add(new PropVariant {VarType = VarEnum.VT_BSTR, Value = Marshal.StringToBSTR("off")});
